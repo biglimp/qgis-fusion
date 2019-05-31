@@ -95,7 +95,7 @@ class CanopyModel(FusionAlgorithm):
                                                                 self.tr('DTM files (*.dtm *.DTM)')))
 
         ground = QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input FUSION canopy height model'), optional = True)
+            self.GROUND, self.tr('Input FUSION canopy height model'), optional = True)
         ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(ground)
         median = QgsProcessingParameterString(
