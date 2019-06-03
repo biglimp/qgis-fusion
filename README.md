@@ -16,7 +16,7 @@ Install the plugin via **Manage and Install Plugins** in QGIS.
 
 You can also clone this repository and copy the `processing_fusion` folder to your QGIS plugins folder (in the folder correspodning to your current active QGIS profile). Activate the plugin and activate the provider in the Processing settings. FUSION algorithms will appear in the Processing toolbox.
 
-You need to downlaod and install FUSION separately (http://forsys.cfr.washington.edu/FUSION/fusionlatest.html). 
+You need to downlaod and install FUSION separately (http://forsys.sefs.uw.edu/FUSION/fusionlatest.html). 
 
 After installing the plugin and FUSION/LDV, activate and configure **FUSION for processing** in the Options-window in the **Processing Toolbox**. 
 
