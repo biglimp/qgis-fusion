@@ -47,6 +47,7 @@ def fusionDirectory():
 
 
 def execute(commands, feedback=None):
+    print(commands)
     if feedback is None:
         feedback = QgsProcessingFeedback()
 
@@ -55,7 +56,7 @@ def execute(commands, feedback=None):
     feedback.pushInfo('FUSION command:')
     feedback.pushCommandInfo(fused_command)
     feedback.pushInfo('FUSION command output:')
-
+    
     loglines = []
     with subprocess.Popen(fused_command,
                           shell=True,

@@ -74,17 +74,17 @@ class PolyClipData(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'), extension = 'las'))
-        self.addParameter(QgsProcessingParameterFile(self.MASK, self.tr('Mask layer'),
-            extension = self.tr('Shapefile files (*.shp *.SHP)')))
+        self.addParameter(QgsProcessingParameterFile(self.MASK, self.tr('Mask layer (Shapefiles only)'),
+            extension = 'shp'))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output clipped LAS file'),
                                                                 self.tr('LAS files (*.las *.LAS)')))
         self.addParameter(QgsProcessingParameterBoolean(self.SHAPE,
-                                           self.tr('Use Shape attribute'), False))
+                                           self.tr('Use Shape attribute'), False, optional = True))
         ##  'field' e 'value' box should appear or get activated if Shape attribute is switched ON
         self.addParameter(QgsProcessingParameterString(self.FIELD,
-                                          self.tr('Shape field index')))
-        self.addParameter(QgsProcessingParameterString(self.VALUE, self.tr("Shape value")))
+                                          self.tr('Shape field index'), optional = True))
+        self.addParameter(QgsProcessingParameterString(self.VALUE, self.tr("Shape value"), optional = True))
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):

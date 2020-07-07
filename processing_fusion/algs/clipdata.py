@@ -72,14 +72,13 @@ class ClipData(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'), extension = 'las'))     
         self.addParameter(QgsProcessingParameterExtent(self.EXTENT, self.tr('Extent')))
-        self.addParameter(QgsProcessingParameterEnum(
-            self.SHAPE, self.tr('Shape'), ['Rectangle', 'Circle']))
-
+        # self.addParameter(QgsProcessingParameterEnum(
+            # self.SHAPE, self.tr('Shape'), ['Rectangle', 'Circle'], optional = True, defaultValue=0))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output'),
                                                                 self.tr('LAS files (*.las *.LAS)')))
         ground = QgsProcessingParameterFile(
-            self.DTM, self.tr('Ground file for height normalization'), optional = True)
+            self.DTM, self.tr('Ground file for height normalization'), optional = True, extension = 'dtm')
         ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(ground)        
         height = QgsProcessingParameterBoolean(
@@ -92,7 +91,7 @@ class ClipData(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         commands = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData.exe')]
         self.addAdvancedModifiersToCommands(commands, parameters, context)
-        commands.append('/shape:' + self.parameterAsEnum(parameters, self.SHAPE, context))
+        # commands.append('/shape:' + str(self.parameterAsEnum(parameters, self.SHAPE, context)))
         dtm = self.parameterAsString(parameters, self.DTM, context)
         if dtm:
             commands.append('/dtm:' + dtm)
