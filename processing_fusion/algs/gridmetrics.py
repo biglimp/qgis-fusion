@@ -57,6 +57,7 @@ class GridMetrics(FusionAlgorithm):
     FIRST = 'FIRST'
     HTMIN = 'HTMIN'
     CLASS = 'CLASS'
+    VERSION64 = 'VERSION64'
 
     def name(self):
         return 'gridmetrics'
@@ -88,6 +89,8 @@ class GridMetrics(FusionAlgorithm):
             self.HEIGHT, self.tr('Height break')))
         self.addParameter(QgsProcessingParameterNumber(
             self.CELLSIZE, self.tr('Cellsize')))
+        self.addParameter(QgsProcessingParameterBoolean(
+            self.VERSION64, self.tr('Use 64-bit version'), False))
 
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV_ELEVATION,
                                                                 self.tr('Output table with grid metrics'),
@@ -116,7 +119,11 @@ class GridMetrics(FusionAlgorithm):
 
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics64.exe')]
+        else:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
         outlier = self.parameterAsString(parameters, self.OUTLIER, context).strip()
         if outlier:
             commands.append('/outlier:' + outlier)
