@@ -130,6 +130,7 @@ class FusionProvider(QgsProcessingProvider):
                 MergeData(),
                 IntensityImage(),
                 FilterData(),
+                GridMetrics(),
                 GridSurfaceCreate(),
                 OpenViewer()
                ]

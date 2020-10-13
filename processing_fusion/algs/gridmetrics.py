@@ -55,7 +55,7 @@ class GridMetrics(FusionAlgorithm):
     CELLSIZE = 'CELLSIZE'
     OUTLIER = 'OUTLIER'
     FIRST = 'FIRST'
-    MINHT = 'MINHT'
+    HTMIN = 'HTMIN'
     CLASS = 'CLASS'
 
     def name(self):
@@ -92,8 +92,8 @@ class GridMetrics(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV_ELEVATION,
                                                                 self.tr('Output table with grid metrics'),
                                                                 self.tr('CSV files (*.csv *.CSV)')))
-        self.addOutput(OutputFile(
-            self.OUTPUT_CSV_ELEVATION, self.tr('Output table with grid metrics')))
+        # self.addOutput(OutputFile(
+            # self.OUTPUT_CSV_ELEVATION, self.tr('Output table with grid metrics')))
 
         outlier = QgsProcessingParameterString(
             self.OUTLIER, self.tr('Outlier:low,high'), '', optional = True)
@@ -117,10 +117,10 @@ class GridMetrics(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
-        outlier = self.parametersAsBool(parameters, self.OUTLIER, context).strip()
+        outlier = self.parameterAsString(parameters, self.OUTLIER, context).strip()
         if outlier:
             commands.append('/outlier:' + outlier)
-        first = self.parametersAsBool(parameters, self.FIRST, context)
+        first = self.parameterAsBool(parameters, self.FIRST, context)
         if first:
             commands.append('/first')
         htmin = self.parameterAsString(parameters, self.HTMIN, context).strip()
