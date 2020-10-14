@@ -72,7 +72,7 @@ class ImageCreate(FusionAlgorithm):
 
     def initAlgorithm(self, config=None):    
         self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input LAS layer'), extension = 'las'))        
+            self.INPUT, self.tr('Input LAS layer'),  fileFilter = '(*.las *.laz)'))        
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output image')))        
         self.addParameter(QgsProcessingParameterEnum(

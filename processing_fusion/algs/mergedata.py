@@ -65,7 +65,7 @@ class MergeData(FusionAlgorithm):
 
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input LAS layers'), extension = 'las'))
+            self.INPUT, self.tr('Input LAS layers'),  fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output merged LAS file'),
                                                                 self.tr('LAS files (*.las *.LAS)')))

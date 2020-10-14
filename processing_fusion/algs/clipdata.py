@@ -70,7 +70,7 @@ class ClipData(FusionAlgorithm):
 
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input LAS layer'), extension = 'las'))     
+            self.INPUT, self.tr('Input LAS layer'),  fileFilter = '(*.las *.laz)'))     
         self.addParameter(QgsProcessingParameterExtent(self.EXTENT, self.tr('Extent')))
         # self.addParameter(QgsProcessingParameterEnum(
             # self.SHAPE, self.tr('Shape'), ['Rectangle', 'Circle'], optional = True, defaultValue=0))
