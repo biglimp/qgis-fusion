@@ -34,6 +34,7 @@ from qgis.core import (QgsProcessingException,
                        QgsProcessingParameterNumber,
                        QgsProcessingParameterBoolean,
                        QgsProcessingParameterRasterLayer,
+                       QgsProcessingParameterString,
                        QgsProcessingParameterFileDestination,
                        QgsProcessingParameterFile
                       )
@@ -44,17 +45,18 @@ from processing_fusion import fusionUtils
 class CloudMetrics(FusionAlgorithm):
 
     INPUT = 'INPUT'
-    OUTPUT = 'OUTPUT'
+    OUTPUT_CSV = 'OUTPUT_CSV'
     ABOVE = 'ABOVE'
     FIRSTIMPULSE = 'FIRSTIMPULSE'
     FIRSTRETURN = 'FIRSTRETURN'
     HTMIN = 'HTMIN'
+    VERSION64 = 'VERSION64'
 
     def name(self):
-        return 'canopymodel'
+        return 'CloudMetrics'
 
     def displayName(self):
-        return self.tr('Canopy model')
+        return self.tr('Cloud Metrics')
 
     def group(self):
         return self.tr('Point cloud analysis')
@@ -75,7 +77,9 @@ class CloudMetrics(FusionAlgorithm):
     def initAlgorithm(self, config=None):    
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'), extension = 'las'))
-        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_DTM,
+        self.addParameter(QgsProcessingParameterBoolean(
+            self.VERSION64, self.tr('Use 64-bit version'), False))
+        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV,
                                                                 self.tr('Output file with tabular metric information'),
                                                                 self.tr('CSV files (*.csv *.CSV)')))
 
@@ -99,11 +103,15 @@ class CloudMetrics(FusionAlgorithm):
         self.addParameter(firstReturn)
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe')]
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics64.exe')]
+        else:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe')]
 
         above = self.parameterAsString(parameters, self.ABOVE, context).strip()
         if above:
-            commands.append('/abve:' + above)
+            commands.append('/above:' + above)
         htmin = self.parameterAsString(parameters, self.HTMIN, context).strip()
         if htmin:
             commands.append('/minht:' + htmin)
@@ -117,7 +125,7 @@ class CloudMetrics(FusionAlgorithm):
 
         self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        
      
-        outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+        outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT_CSV, context)
         commands.append('"%s"' % outputFile)
 
         fusionUtils.execute(commands, feedback)
