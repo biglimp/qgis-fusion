@@ -46,7 +46,7 @@ from processing_fusion import fusionUtils
 class CanopyModel(FusionAlgorithm):
 
     INPUT = 'INPUT'
-    OUTPUT_DTM = 'OUTPUT_DTM'
+    OUTPUT = 'OUTPUT'
     CELLSIZE = 'CELLSIZE'
     XYUNITS = 'XYUNITS'
     ZUNITS = 'ZUNITS'
@@ -57,6 +57,7 @@ class CanopyModel(FusionAlgorithm):
     SLOPE = 'SLOPE'
     CLASS = 'CLASS'
     ASCII = 'ASCII'
+    VERSION64 = 'VERSION64'
 
     def name(self):
         return 'canopymodel'
@@ -90,20 +91,24 @@ class CanopyModel(FusionAlgorithm):
             self.XYUNITS, self.tr('XY Units'), self.UNITS))
         self.addParameter(QgsProcessingParameterEnum(
             self.ZUNITS, self.tr('Z Units'), self.UNITS))
-        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_DTM,
+        self.addParameter(QgsProcessingParameterBoolean(
+            self.VERSION64, self.tr('Use 64-bit version'), True))
+        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output surface'),
                                                                 self.tr('DTM files (*.dtm *.DTM)')))
 
-        ground = QgsProcessingParameterFile(
-            self.GROUND, self.tr('Input FUSION canopy height model'), optional = True)
+        ground = QgsProcessingParameterFile(self.GROUND,
+                                            self.tr('Input PLANS DTM ground model'),
+                                            extension = 'dtm',
+                                            optional = True)
         ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(ground)
         median = QgsProcessingParameterString(
-            self.MEDIAN, self.tr('Median'), '', optional = True)
+            self.MEDIAN, self.tr('Size of the window for Median filter'), '', optional = True)
         median.setFlags(median.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(median)
         smooth = QgsProcessingParameterString(
-            self.SMOOTH, self.tr('Smooth'), '', optional = True)
+            self.SMOOTH, self.tr('Size of the window for mean filter (Smooth)'), '', optional = True)
         smooth.setFlags(smooth.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(smooth)
         class_var = QgsProcessingParameterString(
@@ -116,42 +121,50 @@ class CanopyModel(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterBoolean(
             self.ASCII, self.tr('Add an ASCII output'), False))
         self.addAdvancedModifiers()
+        
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'CanopyModel.exe')]
-        commands.append('/verbose')
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CanopyModel64.exe')]
+        else:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CanopyModel.exe')]
+        arguments.append('/verbose')
         ground = self.parameterAsString(parameters, self.GROUND, context).strip()
         if ground:
-            commands.append('/ground:' + ground)
+            arguments.append('/ground:' + ground)
         median = self.parameterAsString(parameters, self.MEDIAN, context).strip()
         if median:
-            commands.append('/median:' + median)
+            arguments.append('/median:' + median)
         smooth= self.parameterAsString(parameters, self.SMOOTH, context).strip()
         if smooth:
-            commands.append('/smooth:' + smooth)
+            arguments.append('/smooth:' + smooth)
         slope = self.parameterAsBool(parameters, self.SLOPE, context)
         if slope:
-            commands.append('/slope') 
+            arguments.append('/slope') 
         class_var = self.parameterAsString(parameters, self.CLASS, context).strip()
         if class_var:
-            commands.append('/class:' + class_var)
-        ascii = self.parameterAsBool(parameters, self.ASCII, context)
-        if ascii:
-            commands.append('/ascii')
+            arguments.append('/class:' + class_var)
+        asciioutput = self.parameterAsBool(parameters, self.ASCII, context)
+        if asciioutput:
+            arguments.append('/ascii')
         
-        self.addAdvancedModifiersToCommands(commands, parameters, context)
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
 
-        outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT_DTM, context)
-        commands.append('"%s"' % outputFile)
-        commands.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
-        commands.append(self.UNITS[self.parameterAsEnum(parameters, self.XYUNITS, context)][0])
-        commands.append(self.UNITS[self.parameterAsEnum(parameters, self.ZUNITS, context)][0])
-        commands.append('0')
-        commands.append('0')
-        commands.append('0')
-        commands.append('0')
-        self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        
+        outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
+        arguments.append('"%s"' % outputFile)
+        arguments.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
+        arguments.append(self.UNITS[self.parameterAsEnum(parameters, self.XYUNITS, context)][0])
+        arguments.append(self.UNITS[self.parameterAsEnum(parameters, self.ZUNITS, context)][0])
+        arguments.append('0')
+        arguments.append('0')
+        arguments.append('0')
+        arguments.append('0')
+        self.addInputFilesToCommands(arguments, parameters, self.INPUT, context)        
 
-        fusionUtils.execute(commands, feedback)
+        fusionUtils.execute(arguments, feedback)
 
         return self.prepareReturn(parameters)
