@@ -46,16 +46,20 @@ from processing_fusion.algs.canopymodel import CanopyModel
 from processing_fusion.algs.catalog import Catalog
 from processing_fusion.algs.clipdata import ClipData
 from processing_fusion.algs.cloudmetrics import CloudMetrics
-from processing_fusion.algs.firstlastreturn import FirstLastReturn
-from processing_fusion.algs.groundfilter import GroundFilter
-from processing_fusion.algs.polyclipdata import PolyClipData
-from processing_fusion.algs.tinsurfacecreate import TinSurfaceCreate
-from processing_fusion.algs.imagecreate import ImageCreate
-from processing_fusion.algs.mergedata import MergeData
-from processing_fusion.algs.intensityimage import IntensityImage
+from processing_fusion.algs.densitymetrics import DensityMetrics
 from processing_fusion.algs.filterdata import FilterData
+from processing_fusion.algs.firstlastreturn import FirstLastReturn
 from processing_fusion.algs.gridmetrics import GridMetrics
 from processing_fusion.algs.gridsurfacecreate import GridSurfaceCreate
+from processing_fusion.algs.groundfilter import GroundFilter
+from processing_fusion.algs.intensityimage import IntensityImage
+from processing_fusion.algs.imagecreate import ImageCreate
+from processing_fusion.algs.mergedata import MergeData
+from processing_fusion.algs.polyclipdata import PolyClipData
+from processing_fusion.algs.returndensity import ReturnDensity
+from processing_fusion.algs.tinsurfacecreate import TinSurfaceCreate
+#from processing_fusion.algs.topometrics import TopoMetrics
+from processing_fusion.algs.treeseg import TreeSeg
 from processing_fusion.algs.openviewer import OpenViewer
 
 from processing_fusion import fusionUtils
@@ -122,16 +126,20 @@ class FusionProvider(QgsProcessingProvider):
                 Catalog(),
                 ClipData(),
                 CloudMetrics(),
-                FirstLastReturn(),
-                GroundFilter(),
-                PolyClipData(),
-                TinSurfaceCreate(),
-                ImageCreate(),
-                MergeData(),
-                IntensityImage(),
+                DensityMetrics(),
                 FilterData(),
+                FirstLastReturn(),
                 GridMetrics(),
                 GridSurfaceCreate(),
+                GroundFilter(),
+                ImageCreate(),
+                IntensityImage(),
+                MergeData(),
+                PolyClipData(),
+                ReturnDensity(),
+                TinSurfaceCreate(),
+                TreeSeg(),
+                #TopoMetrics(),
                 OpenViewer()
                ]
 
