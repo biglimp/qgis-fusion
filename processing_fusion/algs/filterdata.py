@@ -46,6 +46,7 @@ class FilterData(FusionAlgorithm):
     VALUE = 'VALUE'
     SHAPE = 'SHAPE'
     WINDOWSIZE = 'WINDOWSIZE'
+    VERSION64 = 'VERSION64'
 
     def name(self):
         return 'filterdata'
@@ -80,23 +81,30 @@ class FilterData(FusionAlgorithm):
             self.WINDOWSIZE, self.tr('Window size'), 
             QgsProcessingParameterNumber.Double, 
             defaultValue = 10))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output filtered LAS file'),
                                                                 self.tr('LAS files (*.las *.LAS)')))
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'FilterData.exe')]
-        self.addAdvancedModifiersToCommands(commands, parameters, context)
-        commands.append('outlier')
-        commands.append(str(self.parameterAsDouble(parameters, self.VALUE, context)))
-        commands.append(str(self.parameterAsDouble(parameters, self.WINDOWSIZE, context)))
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'FilterData64.exe')]
+        else:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'FilterData.exe')]
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
+        arguments.append('outlier')
+        arguments.append(str(self.parameterAsDouble(parameters, self.VALUE, context)))
+        arguments.append(str(self.parameterAsDouble(parameters, self.WINDOWSIZE, context)))
 
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
-        commands.append('"%s"' % outputFile)
+        arguments.append('"%s"' % outputFile)
 
-        self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        
+        self.addInputFilesToCommands(arguments, parameters, self.INPUT, context)        
 
-        fusionUtils.execute(commands, feedback)
+        fusionUtils.execute(arguments, feedback)
 
         return self.prepareReturn(parameters)
