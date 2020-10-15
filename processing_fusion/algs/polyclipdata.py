@@ -49,6 +49,7 @@ class PolyClipData(FusionAlgorithm):
     MASK = 'MASK'
     FIELD = 'FIELD'
     VALUE = 'VALUE'
+    VERSION64 = 'VERSION64'
 
     def name(self):
         return 'pollyclipdata'
@@ -76,6 +77,9 @@ class PolyClipData(FusionAlgorithm):
             self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterFile(self.MASK, self.tr('Mask layer (Shapefiles only)'),
             extension = 'shp'))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output clipped LAS file'),
                                                                 self.tr('LAS files (*.las *.LAS)')))
@@ -88,7 +92,12 @@ class PolyClipData(FusionAlgorithm):
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe')]
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe')]
+        else:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe')]
+
         if self.parameterAsBool(parameters, self.SHAPE, context):
             commands.append('/shape:' + self.parameterAsString(parameters, self.FIELD, context) + ','
                             + self.parameterAsString(parameters, self.VALUE, context))
