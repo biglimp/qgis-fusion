@@ -67,6 +67,7 @@ class ClipData(FusionAlgorithm):
     SHAPE = 'SHAPE'
     DTM = 'DTM'
     HEIGHT = 'HEIGHT'
+    VERSION64 = 'VERSION64'
 
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(
@@ -74,6 +75,9 @@ class ClipData(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterExtent(self.EXTENT, self.tr('Extent')))
         # self.addParameter(QgsProcessingParameterEnum(
             # self.SHAPE, self.tr('Shape'), ['Rectangle', 'Circle'], optional = True, defaultValue=0))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output'),
                                                                 self.tr('LAS files (*.las *.LAS)')))
@@ -89,7 +93,11 @@ class ClipData(FusionAlgorithm):
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData.exe')]
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData64.exe')]
+        else:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData.exe')]
         self.addAdvancedModifiersToCommands(commands, parameters, context)
         # commands.append('/shape:' + str(self.parameterAsEnum(parameters, self.SHAPE, context)))
         dtm = self.parameterAsString(parameters, self.DTM, context)
