@@ -52,6 +52,7 @@ class ascii2dtm(FusionAlgorithm):
     MULTIPLIER = 'MULTIPLIER'
     OFFSET = 'OFFSET'
     NAN = 'NAN'
+    VERSION64 = 'VERSION64
     OUTPUT = 'OUTPUT'
 
     def name(self):
@@ -121,6 +122,10 @@ class ascii2dtm(FusionAlgorithm):
                                                      self.tr('Vertical datum'),
                                                      options=[i[0] for i in self.vdatums],
                                                      defaultValue=0))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
+        
         params = []
         params.append(QgsProcessingParameterNumber(self.MULTIPLIER,
                                                    self.tr('Multiply all data values by the constant'),
@@ -151,7 +156,11 @@ class ascii2dtm(FusionAlgorithm):
             raise QgsProcessingException(self.invalidRasterError(parameters, self.INPUT))
 
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        if self.VERSION64:
+            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe'))
+        else:
+            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe'))
+        
 
         if self.MULTIPLIER in parameters and parameters[self.MULTIPLIER] is not None:
             arguments.append('/multiplier:{}'.format(self.parameterAsDouble(parameters, self.MULTIPLIER, context)))

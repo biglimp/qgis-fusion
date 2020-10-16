@@ -44,6 +44,7 @@ class GroundFilter(FusionAlgorithm):
     OUTPUT = 'OUTPUT'
     CELLSIZE = 'CELLSIZE'
     SURFACE = 'SURFACE'
+    VERSION64 = 'VERSION64'
 
     def name(self):
         return 'groundfilter'
@@ -83,16 +84,20 @@ class GroundFilter(FusionAlgorithm):
         self.addAdvancedModifiers()
     
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter.exe')]        
-        self.addAdvancedModifiersToCommands(commands, parameters, context)
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter64.exe')]
+        else:
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter.exe')]
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
         if self.parameterAsBool(parameters, self.SURFACE, context):
-            commands.append('/surface')
+            arguments.append('/surface')
 
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
-        commands.append('"%s"' % outputFile)
-        commands.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
-        self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        
+        arguments.append('"%s"' % outputFile)
+        arguments.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
+        self.addInputFilesToCommands(arguments, parameters, self.INPUT, context)        
 
-        fusionUtils.execute(commands, feedback)
+        fusionUtils.execute(arguments, feedback)
 
         return self.prepareReturn(parameters)

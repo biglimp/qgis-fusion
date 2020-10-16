@@ -57,6 +57,7 @@ class GridSurfaceCreate(FusionAlgorithm):
     SLOPE = 'SLOPE'
     MINIMUM = 'MINIMUM'
     CLASS = 'CLASS'
+    VERSION64 = 'VERSION64'
 
 
     def name(self):
@@ -91,6 +92,9 @@ class GridSurfaceCreate(FusionAlgorithm):
             self.XYUNITS, self.tr('XY Units'), self.UNITS))
         self.addParameter(QgsProcessingParameterEnum(
             self.ZUNITS, self.tr('Z Units'), self.UNITS))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_DTM,
                                                                 self.tr('Output surface'),
                                                                 self.tr('DTM files (*.dtm *.DTM)')))
@@ -121,8 +125,11 @@ class GridSurfaceCreate(FusionAlgorithm):
 
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate.exe')] 
-
+        version64 = self.parameterAsBool(parameters, self.VERSION64, context)
+        if version64:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate64.exe')]
+        else:
+            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate.exe')]
         spike = self.parameterAsString(parameters, self.SPIKE, context).strip()
         if spike:
             commands.append('/spike:' + spike)
