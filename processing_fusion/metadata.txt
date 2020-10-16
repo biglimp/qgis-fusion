@@ -7,7 +7,7 @@ version=2.0
 qgisMinimumVersion=3.0
 icon=icons/fusion.svg
 tags=analysis, processing, lidar, las, laz, points, pointcloud, dem, dtm, dsm, forrest
-author=Alexander Bruy, Victor Olaya, Fredrik Lindberg, Niccolo Marchi
+author=Alexander Bruy, Victor Olaya, Niccolo Marchi, Fredrik Lindberg
 email=fredrikl@gvc.gu.se
 
 homepage=https://github.com/biglimp/qgis-fusion
