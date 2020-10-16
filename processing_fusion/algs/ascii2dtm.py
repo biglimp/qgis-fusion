@@ -52,7 +52,7 @@ class ascii2dtm(FusionAlgorithm):
     MULTIPLIER = 'MULTIPLIER'
     OFFSET = 'OFFSET'
     NAN = 'NAN'
-    VERSION64 = 'VERSION64
+    VERSION64 = 'VERSION64'
     OUTPUT = 'OUTPUT'
 
     def name(self):

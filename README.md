@@ -10,7 +10,7 @@ It is based on the initial porting of the FUSION provider to QGIS 3, done by Ale
 Installation
 ------------
 
-This plugin is only availabe for Windows users since the FUSION binaries only are avialable for Windows.
+*This plugin is only availabe for Windows users since the FUSION binaries only are avialable for Windows.*
 
 Install the plugin via **Manage and Install Plugins** in QGIS. 
 

@@ -58,7 +58,7 @@ class TreeSeg(FusionAlgorithm):
         return 'treeseg'
 
     def displayName(self):
-        return self.tr("Trees' Segmentation")
+        return self.tr("Trees Segmentation")
 
     def group(self):
         return self.tr('Point cloud analysis')

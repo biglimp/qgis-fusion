@@ -78,7 +78,7 @@ class CloudMetrics(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterBoolean(
-            self.VERSION64, self.tr('Use 64-bit version'), False))
+            self.VERSION64, self.tr('Use 64-bit version'), True))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV,
                                                                 self.tr('Output file with tabular metric information'),
                                                                 self.tr('CSV files (*.csv *.CSV)')))
