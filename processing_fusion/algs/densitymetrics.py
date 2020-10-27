@@ -69,7 +69,7 @@ class DensityMetrics(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return ''
+        return 'Computes point density metrics using elevation-based slices'
 
     def __init__(self):
         super().__init__()
@@ -118,6 +118,7 @@ class DensityMetrics(FusionAlgorithm):
             p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
             self.addParameter(p)
 
+        self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
