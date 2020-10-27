@@ -2,7 +2,7 @@
 
 """
 ***************************************************************************
-    ThinData.py
+    GridSurfaceStats.py
     ---------------------
     Date                 : October 2020
     Copyright            : (C) 2020 by Niccolo' Marchi
