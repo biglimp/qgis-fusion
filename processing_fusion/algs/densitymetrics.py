@@ -137,7 +137,7 @@ class DensityMetrics(FusionAlgorithm):
         class_var = self.parameterAsString(parameters, self.CLASS, context).strip()
         if class_var:
             arguments.append('/class:' + class_var)
-
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
 
         arguments.append(self.parameterAsFile(parameters, self.GROUND, context))
         arguments.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
@@ -147,7 +147,6 @@ class DensityMetrics(FusionAlgorithm):
 
         arguments.append(self.parameterAsFile(parameters, self.INPUT, context))
 
-        # self.addAdvancedModifiersToCommands(arguments, parameters, context)
         # arguments.append('outlier')
         # arguments.append(str(self.parameterAsDouble(parameters, self.VALUE, context)))
         # arguments.append(str(self.parameterAsDouble(parameters, self.WINDOWSIZE, context)))
