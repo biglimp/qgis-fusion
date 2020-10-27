@@ -76,7 +76,7 @@ class GridSurfaceCreate(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return ''
+        return 'Creates a gridded surface model using collections of random points. Individual cell elevations are calculated using the average elevation of all points within the cell.'
 
     def __init__(self):
         super().__init__()
@@ -123,6 +123,7 @@ class GridSurfaceCreate(FusionAlgorithm):
         slope.setFlags(slope.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(slope)
 
+        self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
@@ -148,6 +149,8 @@ class GridSurfaceCreate(FusionAlgorithm):
         class_var = self.parameterAsString(parameters, self.CLASS, context).strip()
         if class_var:
             commands.append('/class:' + class_var)
+
+        self.addAdvancedModifiersToCommands(commands, parameters, context)
         
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT_DTM, context)
         commands.append('"%s"' % outputFile)
