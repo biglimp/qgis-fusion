@@ -104,6 +104,10 @@ class CloudMetrics(FusionAlgorithm):
                                                     self.tr('First impulse'),
                                                     defaultValue=False,
                                                     optional = True))
+        params.append(QgsProcessingParameterBoolean(self.FIRSTRETURN,
+                                                    self.tr('First returns'),
+                                                    defaultValue=False,
+                                                    optional = True))
         params.append(QgsProcessingParameterBoolean(self.PROFILEAREA,
                                                     self.tr('Output detailed percentile data used to compute the canopy profile area'),
                                                     defaultValue=False,
