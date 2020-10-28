@@ -46,15 +46,16 @@ from processing_fusion import fusionUtils
 class GridMetrics(FusionAlgorithm):
 
     INPUT = 'INPUT'
-    OUTPUT_CSV_ELEVATION = 'OUTPUT_CSV_ELEVATION'
-    OUTPUT_CSV_INTENSITY = 'OUTPUT_CSV_INTENSITY'
-    OUTPUT_TXT_ELEVATION = 'OUTPUT_TXT_ELEVATION'
-    OUTPUT_TXT_INTENSITY = 'OUTPUT_TXT_INTENSITY'
+    OUTPUT = 'OUTPUT'
     GROUND = 'GROUND'
     HEIGHT = 'HEIGHT'
     CELLSIZE = 'CELLSIZE'
     OUTLIER = 'OUTLIER'
     FIRST = 'FIRST'
+    NOINTENSITY = 'NOINTENSITY'
+    FUEL = 'FUEL'
+    IGNOREOVERLAP = 'IGNOREOVERLAP'
+    ASCII = 'ASCII'
     HTMIN = 'HTMIN'
     CLASS = 'CLASS'
     VERSION64 = 'VERSION64'
@@ -75,82 +76,114 @@ class GridMetrics(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return ''
+        return '''GridMetrics computes a series of descriptive statistics for a LIDAR data set using both elevation and intensity.
+        GridMetrics can apply the fuel models developed to predict canopy fuel characteristics in Douglas-fir forest type in Western Washington (Andersen, et al. 2005).
+        Application of the fuel models to other stand types or geographic regions may produce questionable results.'''
 
     def __init__(self):
         super().__init__()
 
     def initAlgorithm(self, config=None):
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
-        self.addParameter(QgsProcessingParameterFile(
-            self.GROUND, self.tr('Input ground DTM file'), extension = 'dtm'))
-        self.addParameter(QgsProcessingParameterNumber(
-            self.HEIGHT, self.tr('Height break')))
-        self.addParameter(QgsProcessingParameterNumber(
-            self.CELLSIZE, self.tr('Cellsize')))
-        self.addParameter(QgsProcessingParameterBoolean(
-            self.VERSION64, self.tr('Use 64-bit version'), False))
+        self.addParameter(QgsProcessingParameterFile(self.INPUT,
+                                                     self.tr('Input LAS layer'),
+                                                     fileFilter = '(*.las *.laz)'))
+        self.addParameter(QgsProcessingParameterFile(self.GROUND,
+                                                     self.tr('Input ground DTM file'),
+                                                     extension = 'dtm'))
+        self.addParameter(QgsProcessingParameterNumber(self.HEIGHT,
+                                                       self.tr('Height break'),
+                                                       QgsProcessingParameterNumber.Double,
+                                                       minValue=0,
+                                                       defaultValue=10.0))
+        self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
+                                                       self.tr('Cell size'),
+                                                       QgsProcessingParameterNumber.Double,
+                                                       minValue=0,
+                                                       defaultValue=10.0))
+        self.addParameter(QgsProcessingParameterBoolean(self.ASCII,
+                                                        self.tr('Output raster data in ASCII raster format instead of PLANS DTM format'),
+                                                        defaultValue=False))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue = True))
 
-        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV_ELEVATION,
+        self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,
                                                                 self.tr('Output table with grid metrics'),
                                                                 self.tr('CSV files (*.csv *.CSV)')))
-        # self.addOutput(OutputFile(
-            # self.OUTPUT_CSV_ELEVATION, self.tr('Output table with grid metrics')))
 
-        outlier = QgsProcessingParameterString(
-            self.OUTLIER, self.tr('Outlier:low,high'), '', optional = True)
-        outlier.setFlags(outlier.flags() | QgsProcessingParameterDefinition.FlagAdvanced)        
-        self.addParameter(outlier)
-        
-        htmin = QgsProcessingParameterString(
-            self.HTMIN, self.tr('Htmin'), '', optional = True)
-        htmin.setFlags(htmin.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(htmin)
-        first = QgsProcessingParameterBoolean(
-            self.FIRST, self.tr('First'), False)
-        first.setFlags(first.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(first)
 
-        class_var = QgsProcessingParameterString(
-            self.CLASS, self.tr('Class'), '', optional = True)
-        class_var.setFlags(class_var.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(class_var)
+        params = []
+        params.append(QgsProcessingParameterString(self.OUTLIER,
+                                                   self.tr('Outlier:low,high'),
+                                                   defaultValue='',
+                                                   optional = True))
+        params.append(QgsProcessingParameterString(self.HTMIN,
+                                                   self.tr('Htmin'),
+                                                   defaultValue='',
+                                                   optional = True))
+        params.append(QgsProcessingParameterBoolean(self.FIRST,
+                                                    self.tr('First'),
+                                                    defaultValue=False,
+                                                    optional = True))
+        params.append(QgsProcessingParameterBoolean(self.NOINTENSITY,
+                                                    self.tr('Do not compute metrics using intensity values '),
+                                                    defaultValue=False,
+                                                    optional = True))
+        params.append(QgsProcessingParameterBoolean(self.FUEL,
+                                                        self.tr('Apply fuel parameter models (cannot be used with /first switch) '),
+                                                        defaultValue=False,
+                                                        optional = True))
+        params.append(QgsProcessingParameterBoolean(self.IGNOREOVERLAP,
+                                                        self.tr('Ignore points with the overlap flag set '),
+                                                        defaultValue=False,
+                                                        optional = True))
+        params.append(QgsProcessingParameterString(self.CLASS,
+                                                   self.tr('Use only a specific LAS class'),
+                                                   defaultValue='',
+                                                   optional = True))
+
+        for p in params:
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            self.addParameter(p)
+
+        self.addAdvancedModifiers()
 
 
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics64.exe')]
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics64.exe')]
         else:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
+
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
+
         outlier = self.parameterAsString(parameters, self.OUTLIER, context).strip()
         if outlier:
-            commands.append('/outlier:' + outlier)
-        first = self.parameterAsBool(parameters, self.FIRST, context)
-        if first:
-            commands.append('/first')
+            arguments.append('/outlier:' + outlier)
+
+        if self.FIRST in parameters and parameters[self.FIRST]:
+            arguments.append('/first')
+        if self.NOINTENSITY in parameters and parameters[self.NOINTENSITY]:
+            arguments.append('/nointensity')
+        if self.FUEL in parameters and parameters[self.FUEL]:
+            arguments.append('/fuel')
+        if self.ASCII in parameters and parameters[self.ASCII]:
+            arguments.append('/ascii')
+        if self.IGNOREOVERLAP in parameters and parameters[self.IGNOREOVERLAP]:
+            arguments.append('/ignoreoverlap')
         htmin = self.parameterAsString(parameters, self.HTMIN, context).strip()
         if htmin:
-            commands.append('/minht:' + htmin)
+            arguments.append('/minht:' + htmin)
         class_var = self.parameterAsString(parameters, self.CLASS, context).strip()
         if class_var:
-            commands.append('/class:' + class_var)
-        commands.append(self.parameterAsString(parameters, self.GROUND, context))
-        commands.append(str(self.parameterAsDouble(parameters, self.HEIGHT, context)))
-        commands.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
-        commands.append('"%s"' % self.parameterAsFileOutput(parameters, self.OUTPUT_CSV_ELEVATION, context))
-        self.addInputFilesToCommands(commands, parameters, self.INPUT, context) 
+            arguments.append('/class:' + class_var)
+        arguments.append(self.parameterAsString(parameters, self.GROUND, context))
+        arguments.append(str(self.parameterAsDouble(parameters, self.HEIGHT, context)))
+        arguments.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
+        arguments.append('"%s"' % self.parameterAsFileOutput(parameters, self.OUTPUT, context))
+        self.addInputFilesToCommands(arguments, parameters, self.INPUT, context) 
 
-        fusionUtils.execute(commands, feedback)
+        fusionUtils.execute(arguments, feedback)
 
         return self.prepareReturn(parameters)
-        
-        '''
-        basePath = self.getOutputValue(self.OUTPUT_CSV_ELEVATION)
-        basePath = os.path.join(os.path.dirname(basePath), os.path.splitext(os.path.basename(basePath))[0])
-        self.setOutputValue(self.OUTPUT_CSV_ELEVATION, basePath + '_all_returns_elevation_stats.csv')
-        self.setOutputValue(self.OUTPUT_CSV_INTENSITY, basePath + '_all_returns_intensity_stats.csv')
-        self.setOutputValue(self.OUTPUT_TXT_ELEVATION, basePath + '_all_returns_elevation_stats_ascii_header.txt')
-        self.setOutputValue(self.OUTPUT_TXT_INTENSITY, basePath + '_all_returns_intensity_stats_ascii_header.txt')
-        '''
