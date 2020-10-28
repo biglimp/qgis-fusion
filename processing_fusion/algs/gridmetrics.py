@@ -100,9 +100,6 @@ class GridMetrics(FusionAlgorithm):
                                                        QgsProcessingParameterNumber.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
-        self.addParameter(QgsProcessingParameterBoolean(self.ASCII,
-                                                        self.tr('Output raster data in ASCII raster format instead of PLANS DTM format'),
-                                                        defaultValue=False))
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
                                                         self.tr('Use 64-bit version'),
                                                         defaultValue = True))
@@ -113,6 +110,10 @@ class GridMetrics(FusionAlgorithm):
 
 
         params = []
+        params.append(QgsProcessingParameterString(self.ASCII,
+                                                   self.tr('Output ASCII raster for a specific variable (insert variable name)'),
+                                                   defaultValue='',
+                                                   optional = True))
         params.append(QgsProcessingParameterString(self.OUTLIER,
                                                    self.tr('Outlier:low,high'),
                                                    defaultValue='',
@@ -161,15 +162,15 @@ class GridMetrics(FusionAlgorithm):
         outlier = self.parameterAsString(parameters, self.OUTLIER, context).strip()
         if outlier:
             arguments.append('/outlier:' + outlier)
-
+        raster = self.parameterAsString(parameters, self.ASCII, context).strip()
+        if raster:
+            arguments.append('/ascii /raster:' + raster)
         if self.FIRST in parameters and parameters[self.FIRST]:
             arguments.append('/first')
         if self.NOINTENSITY in parameters and parameters[self.NOINTENSITY]:
             arguments.append('/nointensity')
         if self.FUEL in parameters and parameters[self.FUEL]:
             arguments.append('/fuel')
-        if self.ASCII in parameters and parameters[self.ASCII]:
-            arguments.append('/ascii')
         if self.IGNOREOVERLAP in parameters and parameters[self.IGNOREOVERLAP]:
             arguments.append('/ignoreoverlap')
         htmin = self.parameterAsString(parameters, self.HTMIN, context).strip()
