@@ -174,6 +174,8 @@ class Cover(FusionAlgorithm):
             p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
             self.addParameter(p)
 
+        self.addAdvancedModifiers()
+        
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
                                                         self.tr('Use 64-bit version'),
                                                         defaultValue=True))
@@ -182,6 +184,8 @@ class Cover(FusionAlgorithm):
                                                                 self.tr('Output'),
                                                                 self.tr('DTM files (*.dtm *.DTM)')))
 
+        
+        
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
         
@@ -204,6 +208,8 @@ class Cover(FusionAlgorithm):
         if self.UPPER in parameters and parameters[self.UPPER] is not 0:
             arguments.append('/upper:{}'.format(self.parameterAsInt(parameters, self.UPPER, context)))
 
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
+        
         arguments.append(self.parameterAsFile(parameters, self.GROUND, context))
         arguments.append(self.parameterAsFileOutput(parameters, self.OUTPUT, context))
         arguments.append(str(self.parameterAsDouble(parameters, self.HEIGHTBREAK, context)))

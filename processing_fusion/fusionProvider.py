@@ -52,6 +52,7 @@ from processing_fusion.algs.filterdata import FilterData
 from processing_fusion.algs.firstlastreturn import FirstLastReturn
 from processing_fusion.algs.gridmetrics import GridMetrics
 from processing_fusion.algs.gridsurfacecreate import GridSurfaceCreate
+from processing_fusion.algs.gridsurfacestats import GridSurfaceStats
 from processing_fusion.algs.groundfilter import GroundFilter
 from processing_fusion.algs.intensityimage import IntensityImage
 from processing_fusion.algs.imagecreate import ImageCreate
@@ -60,7 +61,7 @@ from processing_fusion.algs.polyclipdata import PolyClipData
 from processing_fusion.algs.returndensity import ReturnDensity
 from processing_fusion.algs.thindata import ThinData
 from processing_fusion.algs.tinsurfacecreate import TinSurfaceCreate
-#from processing_fusion.algs.topometrics import TopoMetrics
+from processing_fusion.algs.topometrics import TopoMetrics
 from processing_fusion.algs.treeseg import TreeSeg
 from processing_fusion.algs.openviewer import OpenViewer
 
@@ -134,6 +135,7 @@ class FusionProvider(QgsProcessingProvider):
                 FirstLastReturn(),
                 GridMetrics(),
                 GridSurfaceCreate(),
+                GridSurfaceStats(),
                 GroundFilter(),
                 ImageCreate(),
                 IntensityImage(),
@@ -143,7 +145,7 @@ class FusionProvider(QgsProcessingProvider):
                 ThinData(),
                 TinSurfaceCreate(),
                 TreeSeg(),
-                #TopoMetrics(),
+                TopoMetrics(),
                 OpenViewer()
                ]
 

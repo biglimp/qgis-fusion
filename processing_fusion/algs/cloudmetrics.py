@@ -46,10 +46,13 @@ class CloudMetrics(FusionAlgorithm):
 
     INPUT = 'INPUT'
     OUTPUT_CSV = 'OUTPUT_CSV'
+    NEW = 'NEW'
     ABOVE = 'ABOVE'
     FIRSTIMPULSE = 'FIRSTIMPULSE'
     FIRSTRETURN = 'FIRSTRETURN'
     HTMIN = 'HTMIN'
+    PROFILEAREA = 'PROFILEAREA'
+    IGNOREOVERLAP = 'IGNOREOVERLAP'
     VERSION64 = 'VERSION64'
 
     def name(self):
@@ -68,66 +71,94 @@ class CloudMetrics(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return ''
+        return 'Computes different metrics at a point cloud level. For other similar analyses check GridMetrics or DensityMetrics'
 
     def __init__(self):
         super().__init__()
 
 
     def initAlgorithm(self, config=None):    
-        self.addParameter(QgsProcessingParameterFile(
-            self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
-        self.addParameter(QgsProcessingParameterBoolean(
-            self.VERSION64, self.tr('Use 64-bit version'), True))
+        self.addParameter(QgsProcessingParameterFile(self.INPUT,
+                                                     self.tr('Input LAS layer'),
+                                                     fileFilter = '(*.las *.laz)'))
+        self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
+                                                        self.tr('Use 64-bit version'),
+                                                        defaultValue=True))
+        self.addParameter(QgsProcessingParameterBoolean(self.NEW,
+                                                        self.tr('Overwrite existing output file with the same name'),
+                                                        defaultValue=False))
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT_CSV,
                                                                 self.tr('Output file with tabular metric information'),
                                                                 self.tr('CSV files (*.csv *.CSV)')))
 
-        above = QgsProcessingParameterString(
-            self.ABOVE, self.tr('Above'), '', optional = True)
-        above.setFlags(above.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(above)
-        htmin = QgsProcessingParameterString(
-            self.HTMIN, self.tr('Htmin'), '', optional = True)
-        htmin.setFlags(htmin.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(htmin)
+        params = []
+        params.append(QgsProcessingParameterString(self.ABOVE,
+                                                   self.tr('Above'),
+                                                   defaultValue='',
+                                                   optional = True))
+        params.append(QgsProcessingParameterString(self.HTMIN,
+                                                   self.tr('Htmin'),
+                                                   defaultValue='',
+                                                   optional = True))
+        params.append(QgsProcessingParameterBoolean(self.FIRSTIMPULSE,
+                                                    self.tr('First impulse'),
+                                                    defaultValue=False,
+                                                    optional = True))
+        params.append(QgsProcessingParameterBoolean(self.FIRSTRETURN,
+                                                    self.tr('First returns'),
+                                                    defaultValue=False,
+                                                    optional = True))
+        params.append(QgsProcessingParameterBoolean(self.PROFILEAREA,
+                                                    self.tr('Output detailed percentile data used to compute the canopy profile area'),
+                                                    defaultValue=False,
+                                                    optional = True))
+        params.append(QgsProcessingParameterBoolean(self.IGNOREOVERLAP,
+                                                        self.tr('Ignore points with the overlap flag set '),
+                                                        defaultValue=False,
+                                                        optional = True))
 
 
-        firstImpulse = QgsProcessingParameterBoolean(
-            self.FIRSTIMPULSE, self.tr('First impulse'), False)
-        firstImpulse.setFlags(firstImpulse.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(firstImpulse)
-        firstReturn = QgsProcessingParameterBoolean(
-            self.FIRSTRETURN, self.tr('First return'), False)
-        firstReturn.setFlags(firstReturn.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(firstReturn)
+        for p in params:
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            self.addParameter(p)
+
+
+        self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics64.exe')]
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics64.exe')]
         else:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe')]
+            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe')]
 
         above = self.parameterAsString(parameters, self.ABOVE, context).strip()
         if above:
-            commands.append('/above:' + above)
+            arguments.append('/above:' + above)
         htmin = self.parameterAsString(parameters, self.HTMIN, context).strip()
         if htmin:
-            commands.append('/minht:' + htmin)
+            arguments.append('/minht:' + htmin)
         
         firstImpulse = self.parameterAsBool(parameters, self.FIRSTIMPULSE, context)
         if firstImpulse:
-            commands.append('/firstinpulse') 
+            arguments.append('/firstinpulse') 
         firstReturn = self.parameterAsBool(parameters, self.FIRSTRETURN, context)
         if firstReturn:
-            commands.append('/firstreturn') 
+            arguments.append('/firstreturn')
+        if self.NEW in parameters and parameters[self.NEW]:
+            arguments.append('/new')
+        if self.PROFILEAREA in parameters and parameters[self.PROFILEAREA]:
+            arguments.append('/pa')
+        if self.IGNOREOVERLAP in parameters and parameters[self.IGNOREOVERLAP]:
+            arguments.append('/ignoreoverlap')
 
-        self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        
+        self.addAdvancedModifiersToCommands(arguments, parameters, context)
+
+        self.addInputFilesToCommands(arguments, parameters, self.INPUT, context)        
      
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT_CSV, context)
-        commands.append('"%s"' % outputFile)
+        arguments.append('"%s"' % outputFile)
 
-        fusionUtils.execute(commands, feedback)
+        fusionUtils.execute(arguments, feedback)
 
         return self.prepareReturn(parameters)
