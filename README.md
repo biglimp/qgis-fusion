@@ -27,15 +27,25 @@ Using FUSION/LDV in a stand-alone Python script
 As from version 3.x the fusion tools can also be accessed and used via the processing library in QGIS3 using the following code example:
 
 `from qgis.core import QgsApplication`
+
 `import sys`
+
 `sys.path.append(r'C:\Users\YOURWINDOWSUSERNAME\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins')`
+
 `from processing_fusion.processing_fusion_provider import ProcessingFUSIONProvider`
+
 `fusion_provider = ProcessingFUSIONProvider()`
+
 `QgsApplication.processingRegistry().addProvider(fusion_provider)`
+
 `import processing`
+
 `from processing.core.Processing import Processing`
+
 `Processing.initialize()`
+
 `parin = { 'CSV' : False, 'INPUT' : 'C:/temp/ground.dtm', 'MULTIPLIER' : None, 'OUTPUT' : 'C:/temp/test.tif', 'RASTER' : False }`
+
 `processing.run('fusion:dtm2ascii', parin)`
 
 Contributors
