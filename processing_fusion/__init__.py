@@ -15,18 +15,22 @@
 *   (at your option) any later version.                                   *
 *                                                                         *
 ***************************************************************************
+ This script initializes the plugin, making it known to QGIS.
 """
 
 __author__ = 'Alexander Bruy'
 __date__ = 'March 2019'
 __copyright__ = '(C) 2019, Alexander Bruy'
 
-# This will get replaced with a git SHA1 when you do a git archive
-
-__revision__ = '$Format:%H$'
-
-from processing_fusion.fusionProviderPlugin import FusionProviderPlugin
 
 
-def classFactory(iface):
-    return FusionProviderPlugin()
+# noinspection PyPep8Naming
+def classFactory(iface):  # pylint: disable=invalid-name
+    """Load ProcessingUMEP class from file ProcessingUMEP.
+
+    :param iface: A QGIS interface instance.
+    :type iface: QgsInterface
+    """
+    #
+    from .processing_fusion import ProcessingFUSIONPlugin
+    return ProcessingFUSIONPlugin()

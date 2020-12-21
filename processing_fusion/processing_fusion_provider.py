@@ -25,15 +25,13 @@ __copyright__ = '(C) 2019, Alexander Bruy'
 
 __revision__ = '$Format:%H$'
 
-import os
-
-from qgis.PyQt.QtGui import QIcon
+# import os
+# from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QCoreApplication
-
-from qgis.core import QgsProcessingProvider
-
+# from qgis.core import QgsProcessingProvider
 from processing.core.ProcessingConfig import ProcessingConfig, Setting
-
+from qgis.core import QgsProcessingProvider
+from processing.core.ProcessingConfig import ProcessingConfig
 from processing_fusion.algs.ascii2dtm import ascii2dtm
 from processing_fusion.algs.csv2grid import csv2grid
 from processing_fusion.algs.dtm2ascii import dtm2ascii
@@ -66,14 +64,104 @@ from processing_fusion.algs.treeseg import TreeSeg
 from processing_fusion.algs.openviewer import OpenViewer
 
 from processing_fusion import fusionUtils
+import os.path
+from qgis.PyQt.QtGui import QIcon
+import inspect
 
 pluginPath = os.path.dirname(__file__)
 
-class FusionProvider(QgsProcessingProvider):
+class ProcessingFUSIONProvider(QgsProcessingProvider):
 
     def __init__(self):
-        super().__init__()
-        self.algs = []
+        """
+        Default constructor.
+        """
+        self.plugin_dir = os.path.dirname(__file__)
+        QgsProcessingProvider.__init__(self)
+        # super().__init__()
+        # self.algs = []
+    
+    def unload(self):
+        ProcessingConfig.removeSetting(fusionUtils.FUSION_ACTIVE)
+        ProcessingConfig.removeSetting(fusionUtils.FUSION_VERBOSE)
+        pass
+
+    # def unload(self):
+    #     """
+    #     Unloads the provider. Any tear-down steps required by the provider
+    #     should be implemented here.
+    #     """
+    #     pass
+
+    # def getAlgs(self):
+    #     algs = [ascii2dtm(),
+    #             csv2grid(),
+    #             dtm2ascii(),
+    #             dtm2envi(),
+    #             dtm2tif(),
+    #             dtm2xyz(),
+    #             xyz2dtm(),
+    #             CanopyMaxima(),
+    #             CanopyModel(),
+    #             Catalog(),
+    #             ClipData(),
+    #             CloudMetrics(),
+    #             Cover(),
+    #             DensityMetrics(),
+    #             FilterData(),
+    #             FirstLastReturn(),
+    #             GridMetrics(),
+    #             GridSurfaceCreate(),
+    #             GridSurfaceStats(),
+    #             GroundFilter(),
+    #             ImageCreate(),
+    #             IntensityImage(),
+    #             MergeData(),
+    #             PolyClipData(),
+    #             ReturnDensity(),
+    #             ThinData(),
+    #             TinSurfaceCreate(),
+    #             TreeSeg(),
+    #             TopoMetrics(),
+    #             OpenViewer()
+    #            ]
+
+    #     return algs
+
+    def loadAlgorithms(self):
+        # self.algs = self.getAlgs()
+        # for a in self.algs:
+        #     self.addAlgorithm(a)
+        self.addAlgorithm(ascii2dtm())
+        self.addAlgorithm(csv2grid())
+        self.addAlgorithm(dtm2ascii())
+        self.addAlgorithm(dtm2envi())
+        self.addAlgorithm(dtm2tif())
+        self.addAlgorithm(dtm2xyz())
+        self.addAlgorithm(xyz2dtm())
+        self.addAlgorithm(CanopyMaxima())
+        self.addAlgorithm(CanopyModel())
+        self.addAlgorithm(Catalog())
+        self.addAlgorithm(ClipData())
+        self.addAlgorithm(CloudMetrics())
+        self.addAlgorithm(Cover())
+        self.addAlgorithm(DensityMetrics())
+        self.addAlgorithm(FilterData())
+        self.addAlgorithm(FirstLastReturn())
+        self.addAlgorithm(GridMetrics())
+        self.addAlgorithm(GridSurfaceCreate())
+        self.addAlgorithm(GridSurfaceStats())
+        self.addAlgorithm(GroundFilter())
+        self.addAlgorithm(ImageCreate())
+        self.addAlgorithm(IntensityImage())
+        self.addAlgorithm(MergeData())
+        self.addAlgorithm(PolyClipData())
+        self.addAlgorithm(ReturnDensity())
+        self.addAlgorithm(ThinData())
+        self.addAlgorithm(TinSurfaceCreate())
+        self.addAlgorithm(TreeSeg())
+        self.addAlgorithm(TopoMetrics())
+        self.addAlgorithm(OpenViewer())
 
     def id(self):
         return 'fusion'
@@ -103,60 +191,16 @@ class FusionProvider(QgsProcessingProvider):
         self.refreshAlgorithms()
         return True
 
-    def unload(self):
-        ProcessingConfig.removeSetting(fusionUtils.FUSION_ACTIVE)
-        ProcessingConfig.removeSetting(fusionUtils.FUSION_VERBOSE)
+    # def isActive(self):
+    #     return ProcessingConfig.getSetting(fusionUtils.FUSION_ACTIVE)
 
-    def isActive(self):
-        return ProcessingConfig.getSetting(fusionUtils.FUSION_ACTIVE)
+    # def setActive(self, active):
+    #     ProcessingConfig.setSettingValue(fusionUtils.FUSION_ACTIVE, active)
 
-    def setActive(self, active):
-        ProcessingConfig.setSettingValue(fusionUtils.FUSION_ACTIVE, active)
+    # def supportsNonFileBasedOutput(self):
+    #     return False
 
-    def supportsNonFileBasedOutput(self):
-        return False
-
-    def getAlgs(self):
-        algs = [ascii2dtm(),
-                csv2grid(),
-                dtm2ascii(),
-                dtm2envi(),
-                dtm2tif(),
-                dtm2xyz(),
-                xyz2dtm(),
-                CanopyMaxima(),
-                CanopyModel(),
-                Catalog(),
-                ClipData(),
-                CloudMetrics(),
-                Cover(),
-                DensityMetrics(),
-                FilterData(),
-                FirstLastReturn(),
-                GridMetrics(),
-                GridSurfaceCreate(),
-                GridSurfaceStats(),
-                GroundFilter(),
-                ImageCreate(),
-                IntensityImage(),
-                MergeData(),
-                PolyClipData(),
-                ReturnDensity(),
-                ThinData(),
-                TinSurfaceCreate(),
-                TreeSeg(),
-                TopoMetrics(),
-                OpenViewer()
-               ]
-
-        return algs
-
-    def loadAlgorithms(self):
-        self.algs = self.getAlgs()
-        for a in self.algs:
-            self.addAlgorithm(a)
-
-    def tr(self, string, context=''):
-        if context == '':
-            context = 'FusionProvider'
-        return QCoreApplication.translate(context, string)
+    # def tr(self, string, context=''):
+    #     if context == '':
+    #         context = 'FusionProvider'
+    #     return QCoreApplication.translate(context, string)
