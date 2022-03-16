@@ -191,6 +191,15 @@ class ProcessingFUSIONProvider(QgsProcessingProvider):
         self.refreshAlgorithms()
         return True
 
+    def longName(self):
+        """
+        Returns the a longer version of the provider name, which can include
+        extra details such as version numbers. E.g. "Lastools LIDAR tools
+        (version 2.2.1)". This string should be localised. The default
+        implementation returns the same string as name().
+        """
+        return 'FUSION for Processing, Version 3.1'
+
     # def isActive(self):
     #     return ProcessingConfig.getSetting(fusionUtils.FUSION_ACTIVE)
 

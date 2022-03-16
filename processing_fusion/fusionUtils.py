@@ -33,7 +33,7 @@ from qgis.core import (Qgis,
                        QgsProcessingFeedback,
                        QgsProcessingUtils
                       )
-from processing.core.ProcessingLog import ProcessingLog
+# from processing.core.ProcessingLog import ProcessingLog
 from processing.core.ProcessingConfig import ProcessingConfig
 
 FUSION_ACTIVE = 'FUSION_ACTIVE'
