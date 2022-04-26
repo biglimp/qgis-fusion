@@ -72,7 +72,7 @@ class MergeData(FusionAlgorithm):
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'MergeData.exe')]
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'MergeData.exe') + '"']
         self.addAdvancedModifiersToCommands(commands, parameters, context)
         
         self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        

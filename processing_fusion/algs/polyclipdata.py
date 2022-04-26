@@ -94,9 +94,9 @@ class PolyClipData(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe')]
+            commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe') + '"']
         else:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe')]
+            commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe') + '"']
 
         if self.parameterAsBool(parameters, self.SHAPE, context):
             commands.append('/shape:' + self.parameterAsString(parameters, self.FIELD, context) + ','

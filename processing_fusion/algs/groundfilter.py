@@ -137,9 +137,9 @@ class GroundFilter(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GroundFilter.exe') + '"']
 
         if self.parameterAsBool(parameters, self.SURFACE, context):
             arguments.append('/surface')

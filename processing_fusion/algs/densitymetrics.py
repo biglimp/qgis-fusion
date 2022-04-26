@@ -123,9 +123,9 @@ class DensityMetrics(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
         if self.VERSION64 in parameters and parameters[self.VERSION64]:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'DensityMetrics64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'DensityMetrics64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'DensityMetrics.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'DensityMetrics.exe') + '"')
 
         if self.FIRST in parameters and parameters[self.FIRST]:
             arguments.append('/first')

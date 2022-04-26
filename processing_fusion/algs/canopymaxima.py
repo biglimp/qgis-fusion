@@ -97,7 +97,7 @@ class CanopyMaxima(FusionAlgorithm):
 
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'CanopyMaxima.exe')]
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'CanopyMaxima.exe') + '"']
         commands.append('/wse:{},0,{},0'.format(self.parameterAsDouble(parameters, self.PARAM_A, context), 
                                             self.parameterAsDouble(parameters, self.PARAM_C, context)))
         

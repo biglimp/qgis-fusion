@@ -44,6 +44,7 @@ FUSION_DIRECTORY = 'FUSION_DIRECTORY'
 def fusionDirectory():
     filePath = ProcessingConfig.getSetting(FUSION_DIRECTORY)
     return filePath if filePath is not None else ''
+    
 
 
 def execute(commands, feedback=None):

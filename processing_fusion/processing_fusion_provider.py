@@ -198,7 +198,7 @@ class ProcessingFUSIONProvider(QgsProcessingProvider):
         (version 2.2.1)". This string should be localised. The default
         implementation returns the same string as name().
         """
-        return 'FUSION for Processing, Version 3.1'
+        return 'FUSION for Processing, Version 3.2'
 
     # def isActive(self):
     #     return ProcessingConfig.getSetting(fusionUtils.FUSION_ACTIVE)

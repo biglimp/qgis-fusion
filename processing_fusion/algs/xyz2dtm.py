@@ -137,7 +137,7 @@ class xyz2dtm(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), self.name()) + '"')
 
         if self.FILL_HOLES in parameters and parameters[self.FILL_HOLES] is not None:
             arguments.append('/fillholes:{}'.format(self.parameterAsInt(parameters, self.FILL_HOLES, context)))

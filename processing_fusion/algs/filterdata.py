@@ -92,9 +92,9 @@ class FilterData(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'FilterData64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'FilterData64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'FilterData.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'FilterData.exe') + '"']
         self.addAdvancedModifiersToCommands(arguments, parameters, context)
         arguments.append('outlier')
         arguments.append(str(self.parameterAsDouble(parameters, self.VALUE, context)))

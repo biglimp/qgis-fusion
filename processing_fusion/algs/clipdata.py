@@ -128,9 +128,9 @@ class ClipData(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'ClipData64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'ClipData.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'ClipData.exe') + '"']
         self.addAdvancedModifiersToCommands(arguments, parameters, context)
         
         arguments.append('/shape:' + str(self.parameterAsEnum(parameters, self.SHAPE, context)))

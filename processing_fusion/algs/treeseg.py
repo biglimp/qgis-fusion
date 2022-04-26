@@ -137,9 +137,9 @@ class TreeSeg(FusionAlgorithm):
         arguments = []
 
         if self.VERSION64:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'TreeSeg64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'TreeSeg64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'TreeSeg.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'TreeSeg.exe') + '"')
 
         if self.HEIGHT_NORM in parameters and parameters[self.HEIGHT_NORM]:
             arguments.append('/height')

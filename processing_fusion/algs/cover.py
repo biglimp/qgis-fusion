@@ -190,9 +190,9 @@ class Cover(FusionAlgorithm):
         arguments = []
         
         if self.VERSION64:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'Cover64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'Cover64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'Cover.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'Cover.exe') + '"')
 
         if self.ALL in parameters and parameters[self.ALL]:
             arguments.append('/all')

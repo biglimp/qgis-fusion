@@ -3,7 +3,7 @@ name=FUSION for Processing
 description=Suite of tools for LiDAR analysis and visualisation
 about=FUSION provides extensive processing capabilities including bare-earth point filtering, surface fitting, data conversion, and quality assessment for large LIDAR acquisitions. You need to download and install the FUSION software available from: http://forsys.sefs.uw.edu/FUSION/fusionlatest.html. After installing the plugin and FUSION, activate and configure FUSION for processing in the Options-window in the Processing Toolbox. This plugin is only availabe for Windows users.
 category=Plugins
-version=3.1
+version=3.2
 qgisMinimumVersion=3.0
 icon=icons/fusion.svg
 tags=analysis, processing, lidar, las, laz, points, pointcloud, dem, dtm, dsm, forrest
@@ -18,6 +18,7 @@ experimental=False
 deprecated=False
 
 changelog=
+    3.2    : Response to issue #12.
     3.1    : Response to issue #11.
     3.0    : Changed code structure for improved compability. 
     2.1    : More tools and switches added. General bug fixing.

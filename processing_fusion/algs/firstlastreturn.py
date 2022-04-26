@@ -75,7 +75,7 @@ class FirstLastReturn(FusionAlgorithm):
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'FirstLastReturn.exe')]
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'FirstLastReturn.exe') + '"']
         if self.parameterAsBool(parameters, self.SWITCH, context):
             commands.append('/uselas')        
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)

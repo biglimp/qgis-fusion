@@ -101,7 +101,7 @@ class csv2grid(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), self.name()) + '"')
 
         if self.MULTIPLIER in parameters and parameters[self.MULTIPLIER] is not None:
             arguments.append('/multiplier:{}'.format(self.parameterAsDouble(parameters, self.MULTIPLIER, context)))

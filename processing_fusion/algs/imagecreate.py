@@ -89,7 +89,7 @@ class ImageCreate(FusionAlgorithm):
             self.SWITCH, self.tr('Output format'), ['JPEG', 'Bitmap']))        
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'ImageCreate.exe')]   
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'ImageCreate.exe') + '"']   
         commands.append('/coloroption:' + self.coloroptions[self.parameterAsEnum(parameters, self.COLOROPTION, context)])
         ground = self.parameterAsString(parameters, self.GROUND, context).strip()
         if ground:

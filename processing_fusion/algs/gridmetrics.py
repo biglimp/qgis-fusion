@@ -153,9 +153,9 @@ class GridMetrics(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridMetrics.exe') + '"']
 
         self.addAdvancedModifiersToCommands(arguments, parameters, context)
 

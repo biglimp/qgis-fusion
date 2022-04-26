@@ -86,7 +86,7 @@ class dtm2tif(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), self.name()) + '"')
 
         if self.MASK in parameters and parameters[self.MASK]:
             arguments.append('/mask')

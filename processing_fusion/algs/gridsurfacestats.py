@@ -119,9 +119,9 @@ class GridSurfaceStats(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceStats64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceStats64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceStats.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceStats.exe') + '"']
                    
         dtm = self.parameterAsString(parameters, self.DTM, context)
         if dtm:

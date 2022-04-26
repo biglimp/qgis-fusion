@@ -119,9 +119,9 @@ class ThinData(FusionAlgorithm):
         arguments = []
         
         if self.VERSION64:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'ThinData64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'ThinData64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'ThinData.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'ThinData.exe') + '"')
 
         if self.IGNOREOVERLAP in parameters and parameters[self.IGNOREOVERLAP]:
             arguments.append('/ignoreoverlap')

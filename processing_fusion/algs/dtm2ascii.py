@@ -99,7 +99,7 @@ class dtm2ascii(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), self.name()) + '"')
 
         if self.CSV in parameters and parameters[self.CSV]:
             arguments.append('/csv')

@@ -117,9 +117,9 @@ class ReturnDensity(FusionAlgorithm):
         arguments = []
 
         if self.VERSION64:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'ReturnDensity64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'ReturnDensity64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'ReturnDensity.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'ReturnDensity.exe') + '"')
 
         if self.FIRST in parameters and parameters[self.FIRST]:
             arguments.append('/first')

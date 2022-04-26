@@ -94,7 +94,7 @@ class TinSurfaceCreate(FusionAlgorithm):
         self.addParameter(return_sel)        
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'TINSurfaceCreate.exe')]        
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'TINSurfaceCreate.exe') + '"']        
         class_var = self.parameterAsString(parameters, self.CLASS, context).strip()
         if class_var:
             commands.append('/class:' + class_var)

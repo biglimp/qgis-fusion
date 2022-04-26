@@ -157,9 +157,9 @@ class ascii2dtm(FusionAlgorithm):
 
         arguments = []
         if self.VERSION64:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'PolyClipData.exe') + '"')
         
 
         if self.MULTIPLIER in parameters and parameters[self.MULTIPLIER] is not None:

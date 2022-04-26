@@ -89,7 +89,7 @@ class IntensityImage(FusionAlgorithm):
         self.addAdvancedModifiers()
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'IntensityImage.exe')]
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'IntensityImage.exe') + '"']
         if self.parameterAsBool(parameters, self.ALLRET, context):
             commands.append('/allreturns')
         if self.parameterAsBool(parameters, self.LOWEST, context):

@@ -86,7 +86,7 @@ class dtm2envi(FusionAlgorithm):
 
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
-        arguments.append(os.path.join(fusionUtils.fusionDirectory(), self.name()))
+        arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), self.name()) + '"')
 
         if self.SOUTH in parameters and parameters[self.SOUTH]:
             arguments.append('/south')

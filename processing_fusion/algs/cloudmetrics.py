@@ -128,9 +128,9 @@ class CloudMetrics(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics64.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics64.exe') + '"']
         else:
-            arguments = [os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe')]
+            arguments = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'CloudMetrics.exe') + '"']
 
         above = self.parameterAsString(parameters, self.ABOVE, context).strip()
         if above:

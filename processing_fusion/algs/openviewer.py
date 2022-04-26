@@ -67,7 +67,7 @@ class OpenViewer(FusionAlgorithm):
         pass 
         
     def processAlgorithm(self, parameters, context, feedback):
-        f = os.path.join(fusionUtils.fusionDirectory(), 'pdq.exe')
+        f = '"' + os.path.join(fusionUtils.fusionDirectory(), 'pdq.exe') + '"'
         subprocess.Popen(f)
         return {}
         

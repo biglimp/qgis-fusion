@@ -97,7 +97,7 @@ class Catalog(FusionAlgorithm):
                                                                 'las'))
 
     def processAlgorithm(self, parameters, context, feedback):
-        commands = [os.path.join(fusionUtils.fusionDirectory(), 'Catalog.exe')]
+        commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'Catalog.exe') + '"']
 
         intensity = self.parameterAsString(parameters, self.INTENSITY, context).strip()
         if intensity:

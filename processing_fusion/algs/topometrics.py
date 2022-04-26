@@ -115,9 +115,9 @@ class TopoMetrics(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         arguments = []
         if self.VERSION64 in parameters and parameters[self.VERSION64]:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'TopoMetrics64.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'TopoMetrics64.exe') + '"')
         else:
-            arguments.append(os.path.join(fusionUtils.fusionDirectory(), 'TopoMetrics.exe'))
+            arguments.append('"' + os.path.join(fusionUtils.fusionDirectory(), 'TopoMetrics.exe') + '"')
 
         if self.SQUARE in parameters and parameters[self.SQUARE]:
             arguments.append('/square')

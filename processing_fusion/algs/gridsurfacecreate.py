@@ -128,9 +128,9 @@ class GridSurfaceCreate(FusionAlgorithm):
     def processAlgorithm(self, parameters, context, feedback):
         version64 = self.parameterAsBool(parameters, self.VERSION64, context)
         if version64:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate64.exe')]
+            commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate64.exe') + '"']
         else:
-            commands = [os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate.exe')]
+            commands = ['"' + os.path.join(fusionUtils.fusionDirectory(), 'GridSurfaceCreate.exe') + '"']
         spike = self.parameterAsString(parameters, self.SPIKE, context).strip()
         if spike:
             commands.append('/spike:' + spike)
