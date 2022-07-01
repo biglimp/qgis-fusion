@@ -43,12 +43,11 @@ FUSION_DIRECTORY = 'FUSION_DIRECTORY'
 
 def fusionDirectory():
     filePath = ProcessingConfig.getSetting(FUSION_DIRECTORY)
-    return filePath if filePath is not None else ''
+    return filePath if filePath is not None else 'C:/FUSION'  # ugly workaround to use in standalone scripts
     
 
 
 def execute(commands, feedback=None):
-    print(commands)
     if feedback is None:
         feedback = QgsProcessingFeedback()
 
@@ -57,7 +56,7 @@ def execute(commands, feedback=None):
     feedback.pushInfo('FUSION command:')
     feedback.pushCommandInfo(fused_command)
     feedback.pushInfo('FUSION command output:')
-    
+
     loglines = []
     with subprocess.Popen(fused_command,
                           shell=True,

@@ -137,3 +137,5 @@ class ReturnDensity(FusionAlgorithm):
         #arguments.append(self.parameterAsFile(parameters, self.INPUT, context))
 
         fusionUtils.execute(arguments, feedback)
+
+        return self.prepareReturn(parameters)

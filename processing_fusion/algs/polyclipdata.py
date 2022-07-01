@@ -39,6 +39,7 @@ from qgis.core import (QgsProcessingException,
 
 from processing_fusion.fusionAlgorithm import FusionAlgorithm
 from processing_fusion import fusionUtils
+from pathlib import Path
 
 
 class PolyClipData(FusionAlgorithm):
@@ -77,6 +78,9 @@ class PolyClipData(FusionAlgorithm):
             self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterFile(self.MASK, self.tr('Mask layer (Shapefiles only)'),
             extension = 'shp'))
+        # self.addParameter(QgsProcessingParameterFileDestination(self.MASK,
+                                                                # self.tr('Mask layer (Shapefiles only)'),
+                                                                # self.tr('SHP files (*.shp)')))
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
                                                         self.tr('Use 64-bit version'),
                                                         defaultValue=True))
@@ -102,8 +106,11 @@ class PolyClipData(FusionAlgorithm):
             commands.append('/shape:' + self.parameterAsString(parameters, self.FIELD, context) + ','
                             + self.parameterAsString(parameters, self.VALUE, context))
         self.addAdvancedModifiersToCommands(commands, parameters, context)
-        commands.append(self.parameterAsString(parameters, self.MASK, context))
-        
+        maskfile = Path(self.parameterAsString(parameters, self.MASK, context))
+        # maskfile = self.parameterAsFileOutput(parameters, self.MASK, context)
+        commands.append('"' + str(maskfile) + '"')
+        # maskFile = self.parameterAsFileOutput(parameters, self.MASK, context)
+        # commands.append('"%s"' % maskFile)
         outputFile = self.parameterAsFileOutput(parameters, self.OUTPUT, context)
         commands.append('"%s"' % outputFile)
         self.addInputFilesToCommands(commands, parameters, self.INPUT, context)        

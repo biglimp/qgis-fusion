@@ -75,7 +75,9 @@ class CanopyModel(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return ''
+        return self.tr('CanopyModel creates a canopy surface model using a LIDAR point cloud. By default, the algorithm used by CanopyModel assigns the elevation of the highest return within each grid cell to the grid cell center.'
+                    '\n'
+                    'Multiple files needs to be added manually using a semicolon (;) as separator.')
 
     def __init__(self):
         super().__init__()

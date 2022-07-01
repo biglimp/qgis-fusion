@@ -78,60 +78,13 @@ class ProcessingFUSIONProvider(QgsProcessingProvider):
         """
         self.plugin_dir = os.path.dirname(__file__)
         QgsProcessingProvider.__init__(self)
-        # super().__init__()
-        # self.algs = []
     
     def unload(self):
         ProcessingConfig.removeSetting(fusionUtils.FUSION_ACTIVE)
         ProcessingConfig.removeSetting(fusionUtils.FUSION_VERBOSE)
         pass
 
-    # def unload(self):
-    #     """
-    #     Unloads the provider. Any tear-down steps required by the provider
-    #     should be implemented here.
-    #     """
-    #     pass
-
-    # def getAlgs(self):
-    #     algs = [ascii2dtm(),
-    #             csv2grid(),
-    #             dtm2ascii(),
-    #             dtm2envi(),
-    #             dtm2tif(),
-    #             dtm2xyz(),
-    #             xyz2dtm(),
-    #             CanopyMaxima(),
-    #             CanopyModel(),
-    #             Catalog(),
-    #             ClipData(),
-    #             CloudMetrics(),
-    #             Cover(),
-    #             DensityMetrics(),
-    #             FilterData(),
-    #             FirstLastReturn(),
-    #             GridMetrics(),
-    #             GridSurfaceCreate(),
-    #             GridSurfaceStats(),
-    #             GroundFilter(),
-    #             ImageCreate(),
-    #             IntensityImage(),
-    #             MergeData(),
-    #             PolyClipData(),
-    #             ReturnDensity(),
-    #             ThinData(),
-    #             TinSurfaceCreate(),
-    #             TreeSeg(),
-    #             TopoMetrics(),
-    #             OpenViewer()
-    #            ]
-
-    #     return algs
-
     def loadAlgorithms(self):
-        # self.algs = self.getAlgs()
-        # for a in self.algs:
-        #     self.addAlgorithm(a)
         self.addAlgorithm(ascii2dtm())
         self.addAlgorithm(csv2grid())
         self.addAlgorithm(dtm2ascii())
@@ -198,18 +151,5 @@ class ProcessingFUSIONProvider(QgsProcessingProvider):
         (version 2.2.1)". This string should be localised. The default
         implementation returns the same string as name().
         """
-        return 'FUSION for Processing, Version 3.2'
+        return 'FUSION for Processing, Version 3.3'
 
-    # def isActive(self):
-    #     return ProcessingConfig.getSetting(fusionUtils.FUSION_ACTIVE)
-
-    # def setActive(self, active):
-    #     ProcessingConfig.setSettingValue(fusionUtils.FUSION_ACTIVE, active)
-
-    # def supportsNonFileBasedOutput(self):
-    #     return False
-
-    # def tr(self, string, context=''):
-    #     if context == '':
-    #         context = 'FusionProvider'
-    #     return QCoreApplication.translate(context, string)

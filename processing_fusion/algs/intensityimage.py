@@ -96,7 +96,7 @@ class IntensityImage(FusionAlgorithm):
             commands.append('/lowest')
         if self.parameterAsBool(parameters, self.HIST, context):
             commands.append('/hist')
-        if self.parameterAsEnum(parameters, self.SWITCH, context) == 0:
+        if self.parameterAsEnum(parameters, self.SWITCH, context) == 1:
             commands.append('/jpg')
         commands.append(str(self.parameterAsDouble(parameters, self.PIXEL, context)))
         
