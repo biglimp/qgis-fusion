@@ -53,7 +53,7 @@ class PolyClipData(FusionAlgorithm):
     VERSION64 = 'VERSION64'
 
     def name(self):
-        return 'pollyclipdata'
+        return 'polyclipdata'
 
     def displayName(self):
         return self.tr('Poly clip data')
