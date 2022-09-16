@@ -151,5 +151,5 @@ class ProcessingFUSIONProvider(QgsProcessingProvider):
         (version 2.2.1)". This string should be localised. The default
         implementation returns the same string as name().
         """
-        return 'FUSION for Processing, Version 3.3'
+        return 'FUSION for Processing, Version 3.4'
 
