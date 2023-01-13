@@ -78,14 +78,14 @@ class ThinData(FusionAlgorithm):
                                                      fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterNumber(self.DENSITY,
                                                        self.tr('Desired pulse density per square unit'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Double,
                                                        minValue = 0,
                                                        defaultValue = 1))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cellsize (in square units)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Double,
                                                        minValue=0,
-                                                       defaultValue=0.0))
+                                                       defaultValue=10.0))
 
 
         params = []
@@ -134,8 +134,8 @@ class ThinData(FusionAlgorithm):
             arguments.append('/rseed:{}'.format(self.parameterAsInt(parameters, self.RSEED, context)))
 
         arguments.append(self.parameterAsFileOutput(parameters, self.OUTPUT, context))
-        arguments.append(str(self.parameterAsInt(parameters, self.DENSITY, context)))
-        arguments.append(str(self.parameterAsInt(parameters, self.CELLSIZE, context)))
+        arguments.append(str(self.parameterAsDouble(parameters, self.DENSITY, context)))
+        arguments.append(str(self.parameterAsDouble(parameters, self.CELLSIZE, context)))
         arguments.append(self.parameterAsFile(parameters, self.INPUT, context))
 
         fusionUtils.execute(arguments, feedback)
