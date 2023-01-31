@@ -57,7 +57,11 @@ class MergeData(FusionAlgorithm):
         return [self.tr('lidar')]
 
     def shortHelpString(self):
-        return 'MergeData combines several point cloud files into a single output file. Multiple files needs to be added manually using a semicolon (;) as separator.'
+        return self.tr('MergeData combines several point cloud files into a single output file.'
+                    '\n'
+                    '\n'
+                    'Multiple files needs to be added manually using a semicolon (;) as separator or use a wildcard (*) to select all las-files in a directory (e.g., /lasfiles/*.las).')
+
 
     def __init__(self):
         super().__init__()

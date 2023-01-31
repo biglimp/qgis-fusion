@@ -77,7 +77,8 @@ class CanopyModel(FusionAlgorithm):
     def shortHelpString(self):
         return self.tr('CanopyModel creates a canopy surface model using a LIDAR point cloud. By default, the algorithm used by CanopyModel assigns the elevation of the highest return within each grid cell to the grid cell center.'
                     '\n'
-                    'Multiple files needs to be added manually using a semicolon (;) as separator.')
+                    '\n'
+                    'Multiple files needs to be added manually using a semicolon (;) as separator or use a wildcard (*) to select all las-files in a directory (e.g., /lasfiles/*.las).')
 
     def __init__(self):
         super().__init__()
