@@ -20,7 +20,7 @@ After installing the plugin and FUSION/LDV, activate and configure **FUSION for 
 
 Known limitations
 -----------------
-For some users, multiple files cannot to be selected for the QgsProcessingParameterFile class. That means that, although most of the FUSION algorithms accept a set of .las files as input, you will only be able to select one in the corresponding file selector. You can, however, use a multiple input by directly typing the filepaths (not selecting it in the file selector) in the textbox, separated by semicolons (;).
+For some users, multiple files cannot to be selected for the QgsProcessingParameterFile class. That means that, although most of the FUSION algorithms accept a set of .las files as input, you will only be able to select one in the corresponding file selector. You can, however, use a multiple input by directly typing the filepaths (not selecting it in the file selector) in the textbox, separated by semicolons (;) OR use a wildcard (*.las) to select all las-files in a directory.
 
 Using FUSION/LDV in a stand-alone Python script
 -----------------------------------------------
