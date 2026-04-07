@@ -69,7 +69,7 @@ class dtm2tif(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(self.INPUT,
                                                      'Input PLANS DTM file',
-                                                     QgsProcessingParameterFile.File,
+                                                     QgsProcessingParameterFile.Behavior.File,
                                                      'dtm'))
 
         params = []
@@ -78,7 +78,7 @@ class dtm2tif(FusionAlgorithm):
                                                     defaultValue=None,
                                                     optional=True))
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addParameter(QgsProcessingParameterRasterDestination(self.OUTPUT,

@@ -78,11 +78,11 @@ class GridSurfaceStats(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(self.INPUT,
                                                      'Input PLANS DTM file',
-                                                     QgsProcessingParameterFile.File,
+                                                     QgsProcessingParameterFile.Behavior.File,
                                                      'dtm'))
         self.addParameter(QgsProcessingParameterNumber(self.SAMPLEFACTOR,
                                                        self.tr('Multiplier for outputfile cell size'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue = 0,
                                                        defaultValue=3))
         self.addParameter(QgsProcessingParameterBoolean(self.ASCII,
@@ -111,7 +111,7 @@ class GridSurfaceStats(FusionAlgorithm):
                                                         optional = True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addAdvancedModifiers()

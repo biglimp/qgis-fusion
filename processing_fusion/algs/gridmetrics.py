@@ -92,12 +92,12 @@ class GridMetrics(FusionAlgorithm):
                                                      extension = 'dtm'))
         self.addParameter(QgsProcessingParameterNumber(self.HEIGHT,
                                                        self.tr('Height break'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cell size'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
@@ -144,7 +144,7 @@ class GridMetrics(FusionAlgorithm):
                                                    optional = True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addAdvancedModifiers()

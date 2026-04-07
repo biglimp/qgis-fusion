@@ -77,17 +77,17 @@ class Catalog(FusionAlgorithm):
 
         density = QgsProcessingParameterString(
             self.DENSITY, self.tr('Density - area, min, max (set blank if not used)'), '', optional = True)
-        density.setFlags(density.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        density.setFlags(density.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(density)
 
         first = QgsProcessingParameterString(
             self.FIRSTDENSITY, self.tr('First density - area, min, max (set blank if not used)'), '', optional = True)
-        first.setFlags(first.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        first.setFlags(first.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(first)
 
         intensity = QgsProcessingParameterString(
             self.INTENSITY, self.tr('Intensity - area, min, max (set blank if not used)'), '', optional = True)
-        intensity.setFlags(intensity.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        intensity.setFlags(intensity.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(intensity)
         
         self.addAdvancedModifiers()

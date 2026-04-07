@@ -81,7 +81,7 @@ class ReturnDensity(FusionAlgorithm):
 
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cellsize'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
 
@@ -109,7 +109,7 @@ class ReturnDensity(FusionAlgorithm):
                                                    optional=True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
         
 

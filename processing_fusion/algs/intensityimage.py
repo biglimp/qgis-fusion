@@ -80,7 +80,7 @@ class IntensityImage(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterBoolean(
             self.HIST, self.tr('Produce a CSV intensity histogram data file'), False))
         self.addParameter(QgsProcessingParameterNumber(
-            self.PIXEL, self.tr('Pixel size'), QgsProcessingParameterNumber.Double,
+            self.PIXEL, self.tr('Pixel size'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 1.0))
         self.addParameter(QgsProcessingParameterEnum(
             self.SWITCH, self.tr('Output format'), ['Bitmap', 'JPEG']))

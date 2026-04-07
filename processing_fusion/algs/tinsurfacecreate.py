@@ -75,7 +75,7 @@ class TinSurfaceCreate(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'), fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
-                                          self.tr('Cellsize'), QgsProcessingParameterNumber.Double,
+                                          self.tr('Cellsize'), QgsProcessingParameterNumber.Type.Double,
                                           minValue = 0, defaultValue = 10.0))
         self.addParameter(QgsProcessingParameterEnum(self.XYUNITS,
                                              self.tr('XY Units'), self.UNITS))
@@ -86,11 +86,11 @@ class TinSurfaceCreate(FusionAlgorithm):
                                                                 self.tr('DTM files (*.dtm *.DTM)')))
         class_var = QgsProcessingParameterString(
             self.CLASS, self.tr('Class'), '', optional = True)
-        class_var.setFlags(class_var.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        class_var.setFlags(class_var.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(class_var)
         return_sel = QgsProcessingParameterString(
             self.RETURN, self.tr('Select specific return'), '', optional = True)
-        return_sel.setFlags(return_sel.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        return_sel.setFlags(return_sel.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(return_sel)        
 
     def processAlgorithm(self, parameters, context, feedback):

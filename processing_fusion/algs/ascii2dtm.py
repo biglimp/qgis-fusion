@@ -110,7 +110,7 @@ class ascii2dtm(FusionAlgorithm):
                                                      defaultValue=0))
         self.addParameter(QgsProcessingParameterNumber(self.ZONE,
                                                        self.tr('Coordinate system zone (0 for unknown)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=0,
                                                        maxValue=60,
                                                        defaultValue=0))
@@ -129,12 +129,12 @@ class ascii2dtm(FusionAlgorithm):
         params = []
         params.append(QgsProcessingParameterNumber(self.MULTIPLIER,
                                                    self.tr('Multiply all data values by the constant'),
-                                                   QgsProcessingParameterNumber.Double,
+                                                   QgsProcessingParameterNumber.Type.Double,
                                                    defaultValue=None,
                                                    optional=True))
         params.append(QgsProcessingParameterNumber(self.OFFSET,
                                                    self.tr('Add the constant to all data values'),
-                                                   QgsProcessingParameterNumber.Double,
+                                                   QgsProcessingParameterNumber.Type.Double,
                                                    defaultValue=None,
                                                    optional=True))
         params.append(QgsProcessingParameterBoolean(self.NAN,
@@ -143,7 +143,7 @@ class ascii2dtm(FusionAlgorithm):
                                                     optional=True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,

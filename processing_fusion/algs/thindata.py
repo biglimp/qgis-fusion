@@ -78,12 +78,12 @@ class ThinData(FusionAlgorithm):
                                                      fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterNumber(self.DENSITY,
                                                        self.tr('Desired pulse density per square unit'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue = 0,
                                                        defaultValue = 1))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cellsize (in square units)'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
 
@@ -91,7 +91,7 @@ class ThinData(FusionAlgorithm):
         params = []
         params.append(QgsProcessingParameterNumber(self.RSEED,
                                                        self.tr('Use random number (can range from 0 to 99)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue = 0,
                                                        maxValue = 99,
                                                        defaultValue=None,
@@ -105,7 +105,7 @@ class ThinData(FusionAlgorithm):
                                                         defaultValue=False,
                                                         optional = True))
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,

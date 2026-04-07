@@ -72,28 +72,28 @@ class csv2grid(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(self.INPUT,
                                                      'Input CSV file',
-                                                     QgsProcessingParameterFile.File,
+                                                     QgsProcessingParameterFile.Behavior.File,
                                                      'csv'))
         self.addParameter(QgsProcessingParameterNumber(self.COLUMN,
                                                        self.tr('Column number for the values'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=1,
                                                        defaultValue=0))
 
         params = []
         params.append(QgsProcessingParameterNumber(self.MULTIPLIER,
                                                    self.tr('Multiply all data values by the constant'),
-                                                   QgsProcessingParameterNumber.Double,
+                                                   QgsProcessingParameterNumber.Type.Double,
                                                    defaultValue=None,
                                                    optional=True))
         params.append(QgsProcessingParameterNumber(self.NDZERO,
                                                    self.tr('Reference column number to change NODATA to 0'),
-                                                   QgsProcessingParameterNumber.Integer,
+                                                   QgsProcessingParameterNumber.Type.Integer,
                                                    minValue=1,
                                                    defaultValue=None,
                                                    optional=True))
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addParameter(QgsProcessingParameterRasterDestination(self.OUTPUT,

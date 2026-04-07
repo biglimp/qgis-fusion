@@ -111,12 +111,12 @@ class Cover(FusionAlgorithm):
                                                      extension = 'dtm'))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cellsize'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
         self.addParameter(QgsProcessingParameterNumber(self.HEIGHTBREAK,
                                                        self.tr('Slice thickness'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue = 0,
                                                        defaultValue = 1))
         self.addParameter(QgsProcessingParameterEnum(self.XYUNITS,
@@ -133,7 +133,7 @@ class Cover(FusionAlgorithm):
                                                      defaultValue=0))
         self.addParameter(QgsProcessingParameterNumber(self.ZONE,
                                                        self.tr('Coordinate system zone (0 for unknown)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=0,
                                                        maxValue=60,
                                                        defaultValue=0))
@@ -165,13 +165,13 @@ class Cover(FusionAlgorithm):
                                                         optional = True))
         params.append(QgsProcessingParameterNumber(self.UPPER,
                                                        self.tr('Set an upperlimit for cover calculation'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue = 0,
                                                        defaultValue=0,
                                                        optional = True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addAdvancedModifiers()

@@ -77,27 +77,27 @@ class TopoMetrics(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(self.INPUT,
                                                      'Input PLANS DTM file',
-                                                     QgsProcessingParameterFile.File,
+                                                     QgsProcessingParameterFile.Behavior.File,
                                                      'dtm'))
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Size of the cell used to report topographic metrics'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue=0,
                                                        defaultValue=10.0))
         self.addParameter(QgsProcessingParameterNumber(self.POINTSPACING,
                                                        self.tr('Point spacing'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue = 0,
                                                        defaultValue = 1))
         self.addParameter(QgsProcessingParameterNumber(self.LATITUDE,
                                                        self.tr('Latitude of the data area (used to compute the solar radiation index)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=-90,
                                                        maxValue=90,
                                                        defaultValue=0.0))
         self.addParameter(QgsProcessingParameterNumber(self.WSIZE,
                                                        self.tr('The size of the window used to compute the Topographic Position Index'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=0,
                                                        defaultValue=10.0))
         self.addParameter(QgsProcessingParameterBoolean(self.SQUARE,

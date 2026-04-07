@@ -5,6 +5,7 @@ about=FUSION provides extensive processing capabilities including bare-earth poi
 category=Plugins
 version=3.5
 qgisMinimumVersion=3.0
+qgisMaximumVersion=4.99
 icon=icons/fusion.svg
 tags=analysis, processing, lidar, las, laz, points, pointcloud, dem, dtm, dsm, forrest
 author=Alexander Bruy, Victor Olaya, Niccolo Marchi, Fredrik Lindberg

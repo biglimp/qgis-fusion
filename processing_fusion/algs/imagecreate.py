@@ -83,7 +83,7 @@ class ImageCreate(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterBoolean(
             self.RGB, self.tr('Use RGB color model to create the color ramp'), False))
         self.addParameter(QgsProcessingParameterNumber(
-            self.PIXEL, self.tr('Pixel size'), QgsProcessingParameterNumber.Double,
+            self.PIXEL, self.tr('Pixel size'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 1.0))
         self.addParameter(QgsProcessingParameterEnum(
             self.SWITCH, self.tr('Output format'), ['JPEG', 'Bitmap']))        

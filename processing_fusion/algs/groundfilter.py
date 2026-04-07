@@ -87,7 +87,7 @@ class GroundFilter(FusionAlgorithm):
                                                      fileFilter = '(*.las *.laz)'))   
         self.addParameter(QgsProcessingParameterNumber(self.CELLSIZE,
                                                        self.tr('Cellsize for intermediate surfaces'),
-                                                       QgsProcessingParameterNumber.Double,
+                                                       QgsProcessingParameterNumber.Type.Double,
                                                        minValue = 0,
                                                        defaultValue = 10.0))        
         self.addParameter(QgsProcessingParameterBoolean(self.SURFACE,
@@ -128,7 +128,7 @@ class GroundFilter(FusionAlgorithm):
                                                         optional = True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
 
