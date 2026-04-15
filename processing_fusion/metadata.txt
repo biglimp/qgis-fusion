@@ -3,7 +3,7 @@ name=FUSION for Processing
 description=Suite of tools for LiDAR analysis and visualisation
 about=FUSION provides extensive processing capabilities including bare-earth point filtering, surface fitting, data conversion, and quality assessment for large LIDAR acquisitions. You need to download and install the FUSION software available from: http://forsys.sefs.uw.edu/FUSION/fusionlatest.html. After installing the plugin and FUSION, activate and configure FUSION for processing in the Options-window in the Processing Toolbox. This plugin is only availabe for Windows users.
 category=Plugins
-version=3.5
+version=4.0
 qgisMinimumVersion=3.0
 qgisMaximumVersion=4.99
 icon=icons/fusion.svg
@@ -19,6 +19,7 @@ experimental=False
 deprecated=False
 
 changelog=
+    4.0    : Added QGIS4 compatibility.
     3.5    : Fixed a bug in Thindata.
     3.4    : Response to issue #13.
     3.3    : Minor bug fixing.
