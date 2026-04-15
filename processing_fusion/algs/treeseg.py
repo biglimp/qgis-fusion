@@ -78,13 +78,13 @@ class TreeSeg(FusionAlgorithm):
     def initAlgorithm(self, config=None):
         self.addParameter(QgsProcessingParameterFile(self.INPUT,
                                                      self.tr('Input CHM in PLANS DTM format'),
-                                                     QgsProcessingParameterFile.File,
+                                                     QgsProcessingParameterFile.Behavior.File,
                                                      extension = 'dtm'))
         # self.addParameter(QgsProcessingParameterFile(
             # self.GROUND, self.tr('Input ground model in PLANS DTM format'), extension = 'dtm', optional=True))
         self.addParameter(QgsProcessingParameterNumber(self.HEIGHT_TH,
                                                        self.tr('Minimum height for object segmentation'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue = 0,
                                                        defaultValue=0))
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
@@ -96,38 +96,38 @@ class TreeSeg(FusionAlgorithm):
                                             self.tr('Input ground surface file (PLANS DTM format)'),
                                             extension = 'dtm',
                                             optional=True)
-        ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(ground)
         
         heightNorm = QgsProcessingParameterBoolean(self.HEIGHT_NORM,
                                                    self.tr('Normalize height model using a ground model'),
                                                    defaultValue=False)
-        heightNorm.setFlags(heightNorm.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        heightNorm.setFlags(heightNorm.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(heightNorm)
         
         heightPts = QgsProcessingParameterBoolean(self.HEIGHT_PTS,
                                                   self.tr("Normalize points' height using a ground model"),
                                                   defaultValue=False)
-        heightPts.setFlags(heightPts.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        heightPts.setFlags(heightPts.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(heightPts)
 
         lasPts = QgsProcessingParameterFile(self.LASPTS,
                                             self.tr("Input LAS layer(s)"),
                                             extension = ('LAS/LAZ files (*.las *.laz)'),
                                             optional=True)
-        lasPts.setFlags(lasPts.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        lasPts.setFlags(lasPts.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(lasPts)
 
         segmentPts = QgsProcessingParameterBoolean(self.SEGMENTPTS,
                                                    self.tr("Output points for the raster segments instead of crown polygons"),
                                                    defaultValue=False)
-        segmentPts.setFlags(segmentPts.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        segmentPts.setFlags(segmentPts.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(segmentPts)
         
         shape = QgsProcessingParameterBoolean(self.SHAPE,
                                               self.tr("Create basin/crown shapefiles with metrics"),
                                               defaultValue=False)
-        shape.setFlags(shape.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        shape.setFlags(shape.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(shape)
 
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,

@@ -120,7 +120,7 @@ class ClipData(FusionAlgorithm):
                                                    optional = True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addAdvancedModifiers()

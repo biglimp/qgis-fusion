@@ -93,7 +93,7 @@ class xyz2dtm(FusionAlgorithm):
 
         self.addParameter(QgsProcessingParameterMultipleLayers(self.INPUT,
                                                                self.tr('XYZ files'),
-                                                               QgsProcessing.TypeFile))
+                                                               QgsProcessing.SourceType.TypeFile))
         self.addParameter(QgsProcessingParameterEnum(self.XYUNITS,
                                                      self.tr('Units for LIDAR data XY'),
                                                      options=[i[0] for i in self.units],
@@ -108,7 +108,7 @@ class xyz2dtm(FusionAlgorithm):
                                                      defaultValue=0))
         self.addParameter(QgsProcessingParameterNumber(self.ZONE,
                                                        self.tr('Coordinate system zone (0 for unknown)'),
-                                                       QgsProcessingParameterNumber.Integer,
+                                                       QgsProcessingParameterNumber.Type.Integer,
                                                        minValue=0,
                                                        maxValue=60,
                                                        defaultValue=0))
@@ -123,12 +123,12 @@ class xyz2dtm(FusionAlgorithm):
         params = []
         params.append(QgsProcessingParameterNumber(self.FILL_HOLES,
                                                    self.tr('Fill holes with specified size'),
-                                                   QgsProcessingParameterNumber.Integer,
+                                                   QgsProcessingParameterNumber.Type.Integer,
                                                    defaultValue=None,
                                                    optional=True))
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
         self.addParameter(QgsProcessingParameterFileDestination(self.OUTPUT,

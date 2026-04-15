@@ -75,11 +75,11 @@ class FilterData(FusionAlgorithm):
             self.INPUT, self.tr('Input LAS layer'),  fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterNumber(
             self.VALUE, self.tr('Standard Deviation multiplier'), 
-            QgsProcessingParameterNumber.Double,
+            QgsProcessingParameterNumber.Type.Double,
             defaultValue = 1))
         self.addParameter(QgsProcessingParameterNumber(
             self.WINDOWSIZE, self.tr('Window size'), 
-            QgsProcessingParameterNumber.Double, 
+            QgsProcessingParameterNumber.Type.Double, 
             defaultValue = 10))
         self.addParameter(QgsProcessingParameterBoolean(self.VERSION64,
                                                         self.tr('Use 64-bit version'),

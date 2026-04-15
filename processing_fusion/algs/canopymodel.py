@@ -88,7 +88,7 @@ class CanopyModel(FusionAlgorithm):
         self.addParameter(QgsProcessingParameterFile(
             self.INPUT, self.tr('Input LAS layer'),  fileFilter = '(*.las *.laz)'))
         self.addParameter(QgsProcessingParameterNumber(
-            self.CELLSIZE, self.tr('Cellsize'), QgsProcessingParameterNumber.Double,
+            self.CELLSIZE, self.tr('Cellsize'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 10.0))
         self.addParameter(QgsProcessingParameterEnum(
             self.XYUNITS, self.tr('XY Units'), self.UNITS))
@@ -104,22 +104,22 @@ class CanopyModel(FusionAlgorithm):
                                             self.tr('Input PLANS DTM ground model'),
                                             extension = 'dtm',
                                             optional = True)
-        ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        ground.setFlags(ground.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(ground)
         median = QgsProcessingParameterString(
             self.MEDIAN, self.tr('Size of the window for Median filter'), '', optional = True)
-        median.setFlags(median.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        median.setFlags(median.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(median)
         smooth = QgsProcessingParameterString(
             self.SMOOTH, self.tr('Size of the window for mean filter (Smooth)'), '', optional = True)
-        smooth.setFlags(smooth.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        smooth.setFlags(smooth.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(smooth)
         class_var = QgsProcessingParameterString(
             self.CLASS, self.tr('Class'), '', optional = True)
-        class_var.setFlags(class_var.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        class_var.setFlags(class_var.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(class_var)
         slope = QgsProcessingParameterBoolean(self.SLOPE, self.tr('Calculate slope'), False)
-        slope.setFlags(slope.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        slope.setFlags(slope.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(slope)
         self.addParameter(QgsProcessingParameterBoolean(
             self.ASCII, self.tr('Add an ASCII output'), False))

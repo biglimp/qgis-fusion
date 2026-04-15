@@ -52,7 +52,7 @@ def execute(commands, feedback=None):
         feedback = QgsProcessingFeedback()
 
     fused_command = ' '.join([str(c) for c in commands])
-    QgsMessageLog.logMessage(fused_command, 'Processing', Qgis.Info)
+    QgsMessageLog.logMessage(fused_command, 'Processing', Qgis.MessageLevel.Info)
     feedback.pushInfo('FUSION command:')
     feedback.pushCommandInfo(fused_command)
     feedback.pushInfo('FUSION command output:')
@@ -72,7 +72,7 @@ def execute(commands, feedback=None):
             pass
 
     if ProcessingConfig.getSetting(FUSION_VERBOSE):
-        QgsMessageLog.logMessage('\n'.join(loglines), 'Processing', Qgis.Info)
+        QgsMessageLog.logMessage('\n'.join(loglines), 'Processing', Qgis.MessageLevel.Info)
 
 
 def layersToFile(fileName, alg, parameters, parameter, context, quote=True):

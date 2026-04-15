@@ -51,7 +51,7 @@ class FusionAlgorithm(QgsProcessingAlgorithm):
     def addAdvancedModifiers(self):
         param = QgsProcessingParameterString(
             self.ADVANCED_MODIFIERS, self.tr('Additional modifiers'), '', optional=True)
-        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        param.setFlags(param.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
         self.addParameter(param)
 
     def addAdvancedModifiersToCommands(self, commands, parameters, context):

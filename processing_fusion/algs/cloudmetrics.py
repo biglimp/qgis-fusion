@@ -119,7 +119,7 @@ class CloudMetrics(FusionAlgorithm):
 
 
         for p in params:
-            p.setFlags(p.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+            p.setFlags(p.flags() | QgsProcessingParameterDefinition.Flag.FlagAdvanced)
             self.addParameter(p)
 
 

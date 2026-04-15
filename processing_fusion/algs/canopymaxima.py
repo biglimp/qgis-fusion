@@ -78,13 +78,13 @@ class CanopyMaxima(FusionAlgorithm):
             self.GROUND, self.tr('Input ground .dtm layer'), extension = 'dtm',
             optional = True))
         self.addParameter(QgsProcessingParameterNumber(
-            self.THRESHOLD, self.tr('Height threshold'), QgsProcessingParameterNumber.Double,
+            self.THRESHOLD, self.tr('Height threshold'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 10.0))
         self.addParameter(QgsProcessingParameterNumber(
-            self.PARAM_A, self.tr('Variable window size: parameter A'), QgsProcessingParameterNumber.Double,
+            self.PARAM_A, self.tr('Variable window size: parameter A'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 2.51503))
         self.addParameter(QgsProcessingParameterNumber(
-            self.PARAM_C, self.tr('Parameter C'), QgsProcessingParameterNumber.Double,
+            self.PARAM_C, self.tr('Parameter C'), QgsProcessingParameterNumber.Type.Double,
             minValue = 0, defaultValue = 0.00901))
         self.addParameter(QgsProcessingParameterBoolean(
             self.SUMMARY, self.tr('Summary (tree height summary statistics)'), False))
